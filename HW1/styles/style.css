@@ -1,6 +1,7 @@
 body{
     font-family: Arial, Helvetica, sans-serif;
 }
+
 .indent{
     text-indent: 2em;
     width: 80%;
@@ -21,4 +22,15 @@ body{
     width: 100%;
     margin-left: 10%;
     margin-right: 10%;
+}
+.table tr:hover{
+    background-color: floralwhite;
+}
+.nav-link{
+    background-color: deepskyblue;
+    color: white;
+}
+.nav-link:hover{
+    background-color: rgb(0, 170, 0);
+    color: white;
 }
