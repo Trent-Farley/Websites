@@ -22,58 +22,58 @@
             <table class="">
                 <tr>
                     <td class="num">
-                        <buton class="primary" onclick="showNum(1)">1</buton>
+                        <buton class="digit primary" onclick="showNum(1)">1</buton>
                     </td>
                     <td class="num">
-                        <buton class="primary" onclick="showNum(2)">2</buton>
+                        <buton class="digit primary" onclick="showNum(2)">2</buton>
                     </td>
                     <td class="num">
-                        <buton class="primary" onclick="showNum(3)">3</buton>
+                        <buton class="digit primary" onclick="showNum(3)">3</buton>
                     </td>
                     <td class="num">
-                        <buton class="primary" onclick="showNum('+')">+</buton>
+                        <buton class="symbol primary" onclick="symbolClick('+')">+</buton>
                     </td>
                 </tr>
                 <tr>
                     <td class="num">
-                        <buton class="primary" onclick="showNum(4)">4</buton>
+                        <buton class="digit primary" onclick="showNum(4)">4</buton>
                     </td>
                     <td class="num">
-                        <buton class="primary" onclick="showNum(5)">5</buton>
+                        <buton class="digit primary" onclick="showNum(5)">5</buton>
                     </td>
                     <td class="num">
-                        <buton class="primary" onclick="showNum(6)">6</buton>
+                        <buton class="digit primary" onclick="showNum(6)">6</buton>
                     </td>
                     <td class="num">
-                        <buton class="primary" onclick="showNum('-')">-</buton>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="num"> 
-                        <buton class="primary" onclick="showNum(7)">7</buton>
-                    </td>
-                    <td class="num">
-                        <buton class="primary" onclick="showNum(8)">8</buton>
-                    </td>
-                    <td class="num">
-                        <buton class="primary" onclick="showNum(9)">9</buton>
-                    </td>
-                    <td class="num">
-                        <buton class="primary" onclick="showNum('*')">×</buton>
+                        <buton class="symbol primary" onclick="symbolClick('-')">-</buton>
                     </td>
                 </tr>
                 <tr>
                     <td class="num"> 
-                        <buton class="primary" onclick="showNum('clear')">clear</buton>
+                        <buton class="digit primary" onclick="showNum(7)">7</buton>
                     </td>
                     <td class="num">
-                        <buton class="primary" onclick="showNum(0)">0</buton>
+                        <buton class="digit primary" onclick="showNum(8)">8</buton>
                     </td>
                     <td class="num">
-                        <buton class="primary" onclick="showNum('enter')">Enter</buton>
+                        <buton class="digit primary" onclick="showNum(9)">9</buton>
                     </td>
                     <td class="num">
-                        <buton class="primary" onclick="showNum('/')">/</buton>
+                        <buton class="symbol primary" onclick="symbolClick('*')")>×</buton>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num"> 
+                        <buton class="clear primary" onclick="clears()">Clear</buton>
+                    </td>
+                    <td class="num">
+                        <buton class="digit primary" onclick="showNum(0)">0</buton>
+                    </td>
+                    <td class="num">
+                        <buton class="digit primary" onclick="calculateScreen()">Enter</buton>
+                    </td>
+                    <td class="num">
+                        <buton class="symbol primary" onclick="symbolClick('/')" >/</buton>
                     </td>
                 </tr>
             </table>

@@ -1,75 +1,61 @@
-
-
 setInterval(() => {
     let bar = $(".bar");
     bar.fadeTo(100, 1.0, function() { $(this).fadeTo(500, 0.0); });
 }, 1000);
 
-
-
-let append = (el, content, classname,attribute) => {
-    if (classname === undefined && attribute === undefined) {
-        root.append(`<${el}> ${content} <${el}>`);
-    } else if(attribute === undefined) {
-        root.append(`<${el} class="${classname}"> ${content} <${el}>`);
-    } else{
-        root.append(`<${el} class="${classname}" ${attribute}> ${content} <${el}>`);
-    }
-};
 let calculations = {
-    nums:[],
-    symbol:undefined
+    ans: NaN,
+    symbol:NaN
 };
 
-let showNum =(num) =>{
-    if(typeof num === 'number'){
-        calculations.nums.push(num);
-        $('.numScreen').append(num);
+let symbolClick = (symbol) => {
+    if(typeof calculations.symbol === "string"){
+        $('.numScreen').text("Too many operations!");
     } else{
-        switch(num){
-            case 'enter':
-                let calc = calculate(calculations.nums,calculations.symbol)
-                calculations.nums = [];
-                calculations.symbol = undefined;
-                $(".numScreen").text(`${calc}`);
-                break;
-            case '*':
-                calculations.symbol = "*"
-                $(".numScreen").append("×");
-                break;
-            case '/':
-                calculations.symbol = "/"
-                $(".numScreen").append("/");
-                break;
-            case '-':
-                calculations.symbol = "-"
-                $(".numScreen").append("-");
-                break;
-            case '+':
-                calculations.symbol = "+"
-                $(".numScreen").append("+");
-                break;
-            case 'clear':
-                $(".numScreen").text("");
-                break;
-            
-        }
+        $('.numScreen').append(`${symbol}`)
+        calculations.symbol = symbol;
     }
-    
+}
 
+let showNum = (item) =>{
+    if(calculations.ans){
+        clears();
+    }
+    $('.numScreen').append(`${item}`);
+}
+let clears = ()=>{
+    calculations.ans = NaN;
+    calculations.symbol = NaN;
+    $('.numScreen').text("  ");
+}
+let calculateScreen = () =>{
+    nums= $('.numScreen').text().split(calculations.symbol);
+    let res = calculate(nums,calculations.symbol);
+    $('.numScreen').text(`${res}`)
 }
 
 let calculate = (nums, symbol)=>{
-    console.log(symbol);
-    console.log(nums);
+    let num1 = parseInt(nums[0]);
+    let num2 = parseInt(nums[1]);
+    let ans = 0;
     switch(symbol){
         case "*":
-            return nums.reduce((a,b)=>a*b);
+            ans =  num1 * num2;
+            break;
         case "-":
-            return nums.reduce((a,b)=> b-a);
+            ans =  num1 - num2;
+            break;
         case "+":
-            return nums.reduce((a,b)=> a+b);
+            ans =  num1 + num2;
+            break;
         case "/":
-            return nums.reduce((a,b)=> b/a);
+            ans =  num1 / num2;
+            break;
     }
-}
+    if(!ans){
+        calculations.ans = 7;
+        return 0;
+    }
+    calculations.ans = ans;
+    return ans;
+};
