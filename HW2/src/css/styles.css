@@ -1,19 +1,20 @@
 .num {
-   height:7em;
+   height:8em;
    cursor: pointer;
    text-align: center;
    font-size: large;
+   font-weight: 1000;
 }
 .primary{
    padding: 2em;
    background-color: white;
    border-radius: 30%;
-   border: 3% solid rgb(1, 16, 102);
+   
 }
-
 table{
-   width: 100%;
-   border-radius: 50%;
+   width: 60%;
+   margin-left: auto;
+   margin-right: auto;
 }
 .screen {
    background-color: cadetblue;
@@ -22,14 +23,14 @@ table{
    margin-left:auto;
    margin-right:auto;
    display: flex;
-   border-radius: 10%;
+   border-radius: 0%;
 }
 .calculator{
    width: 100%;
-   background-color: rgb(26, 9, 139);
-   padding-bottom: 30%;
-   padding-top: 3%;
-   border-radius: 20%;
+   background-color: rgb(12, 4, 68);
+   padding-bottom: 1%;
+   padding-top: 1%;
+   border-radius: 2%;
 }
 .bar{
    padding-right: .5%;
@@ -39,11 +40,40 @@ table{
    height: 20%;
    color:black;
    font-size: xx-large;
-   /* background-color: black; */
 }
 .numScreen{
    font-size: xx-large;
    height: 10%;
    color:black;
-   /* background-color: black; */
+}
+.bodyCalc{
+   background-color: rgba(0, 3, 165, 0.637);
+   width: 90%;
+   margin-left: auto;
+   margin-right: auto;
+   border-radius: 2%;
+   padding-top: 1%;
+   padding-bottom: 5%;
+}
+.brand{
+   width: 90%;
+   padding-left: 2%;
+   padding-right: 2%;
+   margin-left: auto;
+   margin-right: auto;
+}
+h5{
+   background-color: rgba(250, 235, 215, 0.801);
+   width: fit-content;
+   padding-left: 2%;
+   padding-right: 2%;
+}
+
+.history{
+   bottom:0;
+   background-color: white;
+   width:100%;
+   width: 80%;
+   margin-left: auto;
+   margin-right: auto;
 }
