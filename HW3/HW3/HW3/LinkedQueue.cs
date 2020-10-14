@@ -5,6 +5,10 @@ public class LinkedQueue<T> : IQueueInterface<T>
     private Node<T> front;
     private Node<T> rear;
 
+    public LinkedQueue()
+    {
+    }
+
     public LinkedQueue(Node<T> front, Node<T> rear)
     {
         this.front = front;
@@ -32,7 +36,7 @@ public class LinkedQueue<T> : IQueueInterface<T>
         {
             throw new QueueUnderFlowException("The queue was empty when pop was invoked");
         }
-        else if(front == rear)
+        else if (front == rear)
         {
             tmp = front.Data;
             front = null;
@@ -48,7 +52,7 @@ public class LinkedQueue<T> : IQueueInterface<T>
 
     public T Push(T element)
     {
-        if(element == null)
+        if (element == null)
         {
             throw new NullReferenceException();
         }

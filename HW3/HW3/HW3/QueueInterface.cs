@@ -3,8 +3,10 @@
 public interface IQueueInterface<T>
 {
     T Push(T element);
-    T Pop();
-    T Peek();
-    Boolean IsEmpty();
 
+    T Pop();
+
+    T Peek();
+
+    Boolean IsEmpty();
 }
