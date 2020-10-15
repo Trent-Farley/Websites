@@ -14,7 +14,7 @@ namespace HW3
                 "\t C is the column number to fit to \n" +
                 "\t inputFIle is the input text file \n" +
                 "\t outputFile is the new output file base name containing wrapped text \n" +
-                "e.g dotnet run 50 inputfile.txt outputFile.txt \n\n  ");
+                "\n e.g dotnet run 50 inputfile.txt outputFile.txt \n\n  ");
         }
 
         /// <summary>
