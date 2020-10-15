@@ -21,7 +21,7 @@ namespace HW3
         /// Main program getting I/O and setting items up for WrapSimply
         /// </summary>
         /// <param name="args">The command line arguments including an int, two strings</param>
-        /// <returns></returns>
+        /// <returns>Status code for exit program</returns>
         private static int Main(string[] args)
         {
             int columnLength;
@@ -47,7 +47,7 @@ namespace HW3
         /// <param name="columnLength">Number of columns per row</param>
         /// <param name="inputFileName">File to take txt from</param>
         /// <param name="outputFileName">New file with different wrap</param>
-        /// <returns></returns>
+        /// <returns>Status code to exit</returns>
         private static int SetupWrapSimply(int columnLength, string inputFileName, string outputFileName)
         {
             IQueueInterface<string> words = new LinkedQueue<string>();
@@ -75,7 +75,7 @@ namespace HW3
         /// <param name="words">Linked list of all the words from file</param>
         /// <param name="columnLength">Length of row</param>
         /// <param name="outputFileName">File to write words to</param>
-        /// <returns></returns>
+        /// <returns>Spaces left</returns>
         private static int WrapSimply(IQueueInterface<string> words, int columnLength, string outputFileName)
         {
             StreamWriter outt = OpenFile(outputFileName);
@@ -105,7 +105,6 @@ namespace HW3
                     words.Pop();
                 }
             }
-            words.Pop();
             outt.WriteLine();
             outt.Flush();
             outt.Close();
@@ -116,7 +115,7 @@ namespace HW3
         /// Create a StreamReader with error checking
         /// </summary>
         /// <param name="inputFileName">Name of file to create lock on</param>
-        /// <returns></returns>
+        /// <returns>StreamReader to read from file</returns>
         private static StreamReader ReadFile(string inputFileName)
         {
             StreamReader sr;
@@ -136,7 +135,7 @@ namespace HW3
         /// Try to open a file to write to.
         /// </summary>
         /// <param name="outputFileName">File that will be written to</param>
-        /// <returns></returns>
+        /// <returns>StreamWriter to write from file</returns>
         private static StreamWriter OpenFile(string outputFileName)
         {
             StreamWriter outt;
