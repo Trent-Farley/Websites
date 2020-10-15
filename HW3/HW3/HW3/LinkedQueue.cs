@@ -5,6 +5,11 @@ public class LinkedQueue<T> : IQueueInterface<T>
     private Node<T> front;
     private Node<T> rear;
 
+    /// <summary>
+    /// Optional valued constructor to set up pointer for the front and back of list
+    /// </summary>
+    /// <param name="front">Front of list, if not provided is null</param>
+    /// <param name="rear">last pointer, if not provided is null</param>
     public LinkedQueue(Node<T> front = null, Node<T> rear = null)
     {
         this.front = front;

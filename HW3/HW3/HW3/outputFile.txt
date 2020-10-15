@@ -1,8 +1,12 @@
-I am a
+I am
+a
 test
-only a
+only
+a
 test
-This is
-a test,
-only a
+This
+is a
+test,
+only
+a
 test
