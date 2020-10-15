@@ -5,11 +5,7 @@ public class LinkedQueue<T> : IQueueInterface<T>
     private Node<T> front;
     private Node<T> rear;
 
-    public LinkedQueue()
-    {
-    }
-
-    public LinkedQueue(Node<T> front, Node<T> rear)
+    public LinkedQueue(Node<T> front = null, Node<T> rear = null)
     {
         this.front = front;
         this.rear = rear;
@@ -55,6 +51,11 @@ public class LinkedQueue<T> : IQueueInterface<T>
         if (element == null)
         {
             throw new NullReferenceException();
+        }
+        if (IsEmpty())
+        {
+            Node<T> tmp = new Node<T>(element, null);
+            rear = front = tmp;
         }
         else
         {

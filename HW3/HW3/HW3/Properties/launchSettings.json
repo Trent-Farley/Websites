@@ -2,7 +2,7 @@
   "profiles": {
     "HW3": {
       "commandName": "Project",
-      "commandLineArgs": "1 inputFile.txt outputFIle.txt",
+      "commandLineArgs": "7 inputFile.txt outputFIle.txt",
       "workingDirectory": "C:\\Users\\trent\\Documents\\source\\CS460\\HW3\\HW3\\HW3"
     }
   }
