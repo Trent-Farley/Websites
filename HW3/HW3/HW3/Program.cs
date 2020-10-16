@@ -50,7 +50,7 @@ namespace HW3
         /// <returns>Status code to exit</returns>
         private static int SetupWrapSimply(int columnLength, string inputFileName, string outputFileName)
         {
-            IQueueInterface<string> words = new LinkedQueue<string>();
+            IQueue<string> words = new LinkedQueue<string>();
             StreamReader sr = ReadFile(inputFileName);
             if (sr == null)
             {
@@ -76,7 +76,7 @@ namespace HW3
         /// <param name="columnLength">Length of row</param>
         /// <param name="outputFileName">File to write words to</param>
         /// <returns>Spaces left</returns>
-        private static int WrapSimply(IQueueInterface<string> words, int columnLength, string outputFileName)
+        private static int WrapSimply(IQueue<string> words, int columnLength, string outputFileName)
         {
             StreamWriter outt = OpenFile(outputFileName);
             int col = 1;
@@ -91,7 +91,7 @@ namespace HW3
                     col += len;
                     words.Pop();
                 }
-                else if ((col + len) > columnLength)
+                else if ((col + len) >= columnLength)
                 {
                     outt.WriteLine();
                     spacesRemaining += (columnLength - col) + 1;

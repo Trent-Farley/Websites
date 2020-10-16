@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class LinkedQueue<T> : IQueueInterface<T>
+public class LinkedQueue<T> : IQueue<T>
 {
     private Node<T> front;
     private Node<T> rear;

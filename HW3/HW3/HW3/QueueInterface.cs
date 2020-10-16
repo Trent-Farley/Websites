@@ -1,6 +1,6 @@
 ﻿using System;
 
-public interface IQueueInterface<T>
+public interface IQueue<T>
 {
     /// <summary>
     /// Push an element onto the back of list
