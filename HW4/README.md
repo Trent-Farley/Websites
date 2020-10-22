@@ -1,0 +1,1 @@
+## Feature 1 is complete, after the user types a value between 0 and 255 the div on the right will change color to the provided hashcode. 
