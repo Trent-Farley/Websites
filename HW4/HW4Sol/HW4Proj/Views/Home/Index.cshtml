@@ -2,17 +2,19 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="card change-color-t text-center" style="background-color:#d6d6d6">
-  <div class="card-body">
+<div class="card change-color-t text-center" >
+  <div class="card-body" style="background-color:#eee5e5">
     <h4 class="card-title ">CS460 Homework 4</h4>
     <h4 class="card-subtitle  text-muted">
         2020
     </h4>
-    <p class="card-text text-left">A couple forms and some simple server side logic -- learning the basics of GET, POSt form data and parameter and model binding. Doing it all with ASP.NET MVC Core</p>
+    <p class="card-text text-left">A couple forms and some simple server side logic -- learning the basics of GET, POST form data and parameter and model binding. Doing it all with ASP.NET MVC Core</p>
     <a class="btn btn-outline-success " href="https://wou-cs46x-resources.netlify.app/cs460/hw/hw4.html">
         Here is the assignment
     </a>
   </div>
+  </div>
+  @*  *@
   <div class="row">
       <div class="col">
           <div class="card text-left">
@@ -21,10 +23,19 @@
               <p class="card-text">
                   Want to know what a paticular RGB color looks like? How about it's web color format? Here you go. Use query strings to send form data to the server, which needs them in the Request object. It then performs the calculations and formats the result in  a view to return to you
               </p>
-                <a class="btn btn-outline-primary" asp-area="" asp-controller="Home" asp-action="ColorPicker">Color Picker</a>
+                <a class="btn btn-outline-primary" asp-area="" asp-controller="Home" asp-action="ColorPicker">Try it out > </a>
             </div>
-          </div>
+        </div>
       </div>
-
+      <div class="col">
+        <div class="card text-left">
+            <div class="card-body">
+              <h4 class="card-title">Color Interpolation</h4>
+              <p class="card-text">
+                  Typical unline color choosers are way too useful. We wanted something fun and completely useless. This form POST's the data to the server and uses parameter binding to make it easy
+              </p>
+                <a class="btn btn-outline-primary" asp-area="" asp-controller="Home" asp-action="ColorInterpolation">Check it out > </a>
+            </div>
+        </div>
+      </div>
   </div>
-</div>
