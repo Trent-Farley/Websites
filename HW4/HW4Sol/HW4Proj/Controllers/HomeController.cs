@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using HW4Proj.Models;
-
+using System.Drawing;
 namespace HW4Proj.Controllers
 {
     public class HomeController : Controller
@@ -22,10 +22,18 @@ namespace HW4Proj.Controllers
         {
             return View();
         }
-
-        public IActionResult Privacy()
+        
+        [HttpGet]
+        public IActionResult ColorPicker(RGBColor color)
         {
-            return View();
+            if(ModelState.IsValid)
+            {
+                return View("RGBColor", color);
+            }
+            else
+            {
+                return View("RGBColor", color);
+            }            
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
