@@ -1,0 +1,47 @@
+@model ColorInterpolation
+@{
+    ViewData["Title"] = "Color Interpolator";
+}
+<div class="row">
+    <div class="col">
+        <div asp-validation-summary="All" style="color:red; background-color:orange;"></div>
+        <form method="post"  asp-controller="InterpolateColors" asp-action="Create">
+            <div class="form-group" >
+                <label >First Color:
+                    <input asp-for="FirstColor" type="string" 
+                    pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" 
+                    title="Please enter a hex number i.e. #000000 to #FFFFFF "
+                    placeholder="#000000"
+                    class="form-control">  
+                </label>
+                <br>
+                <label >Second Color:
+                    <input asp-for="SecondColor" type="string" 
+                    pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" 
+                    title="Please enter a hex number i.e. #000000 to #FFFFFF "
+                    placeholder="#FFFFFF"
+                    class="form-control">   
+                </label>
+                <br>
+                <label>Number of Colors
+                    <input asp-for="NumberOfColors" type="number" min="0" class="form-control" required>  
+                </label>
+            </div>
+            <button type="submit" class="btn btn-outline-primary" >Enter Values</button>
+        </form>
+    </div>
+    <div class="col">
+        <table>
+            <th>
+                <tr>
+                    <td>HTML</td>
+                    <td>Color</td>
+                </tr>
+            </th>
+            @foreach (var item in Model.Interpolations)
+            {
+                <tr><td>@item</td><td style="background-color: @item; width:80%;"></td></tr>
+            }
+        </table>
+    </div>
+</div>
