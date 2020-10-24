@@ -21,7 +21,6 @@ namespace HW4Proj.Controllers
         [HttpGet]
         public IActionResult ColorPicker(RGBColor color)
         {
-            
             if(ModelState.IsValid)
             {
                 return View("RGBColor", color);

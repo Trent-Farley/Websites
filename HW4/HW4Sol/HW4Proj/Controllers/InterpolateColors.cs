@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using HW4Proj.Models;
-using System.Drawing;
 using HW4Proj.Tools;
 namespace HW4Proj.Controllers
 {
@@ -18,9 +12,9 @@ namespace HW4Proj.Controllers
         {
             _logger = logger;
         }
+        
         public IActionResult Create()
         {
-
             return View();
         }
         [HttpPost]

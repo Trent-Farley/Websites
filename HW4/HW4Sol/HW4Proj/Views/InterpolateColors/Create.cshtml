@@ -38,10 +38,13 @@
                     <td>Color</td>
                 </tr>
             </th>
-            @foreach (var item in Model.Interpolations)
+            @if(Model != null)
             {
-                <tr><td>@item</td><td style="background-color: @item; width:80%;"></td></tr>
-            }
+                @foreach (var item in Model.Interpolations)
+                {
+                    <tr><td>@item</td><td style="background-color: @item; width:80%;"></td></tr>
+                }
+            }   
         </table>
     </div>
 </div>
