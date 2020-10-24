@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System;
-using System.Drawing;
 namespace HW4Proj.Models
 {
     public class RGBColor

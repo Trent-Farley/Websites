@@ -1,5 +1,3 @@
-using System;
-
 namespace HW4Proj.Models
 {
     public class ErrorViewModel
