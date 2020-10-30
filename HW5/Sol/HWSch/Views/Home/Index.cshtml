@@ -1,8 +1,55 @@
-﻿@{
+﻿@model Homework
+@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Got a new Homework Assignment?</h4>
+                    <p class="card-text">
+                        Use this page to enter information about your assignment. Add it and then we'll keep track of it for you. We'll let you see your assignments by priority or due date so you'll never miss getting something done!
+                        <br /><br />
+                        <strong>Here's what the parts mean:</strong><br /><br />
+                        <strong>Priority 5 --💀💀--</strong> Highest priority<br />
+                        <strong>Priority 1 --🤷‍♀️🤷‍♀-- </strong> Lowest priority<br />
+                        <strong>Due --</strong> due date and time (use Chrome to see a nice date/time chooser)<br />
+                        <strong>Course -- </strong>Enter it like this CS 460, WR 355.. and we can keep track of assignments for each department and class number<br />
+                        <strong>Title -- </strong> Maybe "HW #1 HTML and CSS"<br />
+                        <strong>Notes-- </strong> Remind yourself what needs to be done or what's important to complete it; or just whatever you want to say about this assignment.<br />
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col card">
+            <br />
+            <div asp-validation-summary="All" style="color:red;"></div>
+            <form method="post" asp-controller="Home" asp-action="Schedule">
+                <br />
+                <div class="form-group row range-wrap">
+                    <label for="Priority" class="col-form-label-md">Priority</label>
+                    <input id="Priority" type="range" class="form-control-range range" asp-for="Precedence" min="1" max="5">
+                    <output class="bubble"></output>
+                </div>
+                <div class="form-group row">
+                    <label for="DueDate" class="col-form-label-md">Due Date: </label>
+                    <input id="DueDate" type="datetime-local" style="width:100%" asp-for="DueDate">
+                </div>
+                <div class="form-group row">
+                    <label for="Course" class="col-form-label-md">Course: </label>
+                    <input id="Course" type="text" placeholder="CS 460" class="" asp-for="Course" maxlength="64" min="1" style="width:100%">
+                </div>
+                <div class="form-group row">
+                    <label for="Title" class="col-form-label-md">Title: </label>
+                    <input id="Title" type="text" placeholder="HTML Assignment" class="" asp-for="Title" maxlength="64" min="1" style="width:100%">
+                </div>
+                <div class="form-group row">
+                    <label for="Note" class="col-form-label-md">Note: </label>
+                    <textarea id="Note" type="text" placeholder="I am going to do mine on puppies!" class="" asp-for="Note" maxlength="512" style="width:100%"></textarea>
+                </div>
+                <button type="submit" class="btn btn-outline-primary">Track Assignment!</button>
+            </form>
+        </div>
+    </div>
 </div>

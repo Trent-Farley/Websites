@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Homework>
+@{
+    ViewData["Title"] = "Assignments";
+}
+<div class="container">
+    <div class="card">
+        <h4 class="card-title text-lg-center">Current Assignments</h4>
+        <form class="form" method="get" asp-action="Assignments" asp-controller="Home">
+            <button type="submit" name="priority" value="true" asp-for="priority" class="btn btn-light">Sort by priority</button>
+            <button type="submit" name="duedate" value="true" class="btn btn-light">Sort by due date</button>
+        </form>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Priority</th>
+                    <th>Due</th>
+                    <th>Course</th>
+                    <th>Title</th>
+                    <th>Note</th>
+                    @*Fix Notes stuff lates*@
+                </tr>
+            </thead>
+            @foreach (var hw in Model)
+            {
+                <tr>
+                    <td>@hw.Precedence</td>
+                    <td>@hw.DueDate</td>
+                    <td>@hw.Course</td>
+                    <td>@hw.Title</td>
+                    <td>@hw.Note</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
