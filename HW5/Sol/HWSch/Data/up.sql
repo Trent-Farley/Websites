@@ -6,5 +6,6 @@
 	Course NVARCHAR(64) NOT NULL,
 	Title NVARCHAR(64) NOT NULL,
 	Note NVARCHAR(512),
+	Fin bit default 0, 
 );
 GO

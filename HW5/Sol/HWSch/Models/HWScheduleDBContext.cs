@@ -27,6 +27,11 @@ namespace HWSch.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Homework>(entity =>
+            {
+                entity.Property(e => e.Fin).HasDefaultValueSql("((0))");
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
 

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HWSch.Models
 {
-    public partial class Homework
+    public partial class oldHomework
     {
         [Key]
         [Column("ID")]
@@ -26,7 +26,5 @@ namespace HWSch.Models
 
         [StringLength(512)]
         public string Note { get; set; }
-
-        public bool? Fin { get; set; }
     }
 }

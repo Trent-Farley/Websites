@@ -23,10 +23,6 @@ namespace HWSch.Controllers
 
         public IActionResult Index()
         {
-            //foreach (var val in db.Homeworks.ToList())
-            //{
-            //    _logger.LogInformation(val.ToString());
-            //}
             return View();
         }
 
@@ -37,7 +33,7 @@ namespace HWSch.Controllers
             {
                 db.Add(hw);
                 db.SaveChanges();
-                return RedirectToAction("Assignments", true);
+                return RedirectToAction("Assignments");
             }
             else
             {
@@ -46,27 +42,42 @@ namespace HWSch.Controllers
         }
 
         [HttpGet]
-        public IActionResult Assignments(bool priority = false, bool duedate = false)
+        public IActionResult Assignments(TrackerInfo tracker)
         {
             var assignments = new List<Homework>();
-            if (priority)
+            if (tracker.Priority)
             {
-                assignments = db.Homeworks.OrderByDescending(db => db.Precedence).ToList();
-                return View("Assignments", assignments);
+                tracker.Homeworks = db.Homeworks.OrderByDescending(db => db.Precedence).ToList();
+                return View("Assignments", tracker);
             }
-            else if (duedate)
+            else if (tracker.DueDate)
             {
                 //Order by furthest out to closest in days
-                assignments = db.Homeworks.OrderByDescending(db => db.DueDate).ToList();
+                tracker.Homeworks = db.Homeworks.OrderByDescending(db => db.DueDate).ToList();
                 //Reverse list to show the item that is due soon
-                assignments.Reverse();
-                return View("Assignments", assignments);
+                tracker.Homeworks.Reverse();
+                return View("Assignments", tracker);
             }
             else
             {
-                assignments = db.Homeworks.ToList();
-                return View("Assignments", assignments);
+                tracker.Homeworks = db.Homeworks.ToList();
+                return View("Assignments", tracker);
             }
+        }
+
+        [HttpPost]
+        public IActionResult SortBy(TrackerInfo tracker)
+        {
+            return RedirectToAction("Assignments", tracker);
+        }
+
+        [HttpPost]
+        public IActionResult SetFin(TrackerInfo tracker)
+        {
+            db.Homeworks.Find(tracker.HWId).Fin = true;
+            db.Homeworks.Update(db.Homeworks.Find(tracker.HWId));
+            db.SaveChanges();
+            return RedirectToAction("Assignments", tracker);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
