@@ -18,30 +18,48 @@
                     <th>Course</th>
                     <th>Title</th>
                     <th>Note</th>
+                    <th>Delete</th>
                     @*Fix Notes stuff lates*@
                 </tr>
             </thead>
             @foreach (var hw in Model.Homeworks)
             {
                 <tr>
+
                     @if ((bool)hw.Fin)
                     {
-                        <td>✔</td>
+                        <td>
+                            ✔
+                        </td>
                     }
                     else
                     {
                         <td>
                             <form method="post" asp-action="SetFin" asp-controller="Home">
-                                <button type="submit" name="HWId" value="@hw.Id" class="btn btn-success">Done</button>
+                                <button type="submit" name="HWId" value="@hw.Id" class="btn btn-outline-success">Done</button>
                             </form>
                         </td>
                     }
+
                     <td>@hw.Precedence</td>
                     <td>@hw.DueDate</td>
                     <td>@hw.Course</td>
                     <td>@hw.Title</td>
-                    <td>@hw.Note</td>
+                    <td>
+                        @*@hw.Note[0]*@
+                        <button type="button" class="btn btn-outline-dark" data-container="body"
+                                data-toggle="popover" data-placement="top"
+                                data-content="@hw.Note">
+                            Details
+                        </button>
+                    </td>
+                    <td>
+                        <form method="post" asp-action="DeleteHW" asp-controller="Home">
+                            <button type="submit" name="HWId" value="@hw.Id" class="btn btn-outline-danger">❌</button>
+                        </form>
+                    </td>
                 </tr>
+
             }
         </table>
     </div>

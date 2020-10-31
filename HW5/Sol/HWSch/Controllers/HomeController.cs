@@ -80,6 +80,14 @@ namespace HWSch.Controllers
             return RedirectToAction("Assignments", tracker);
         }
 
+        [HttpPost]
+        public IActionResult DeleteHW(TrackerInfo tracker)
+        {
+            db.Homeworks.Remove(db.Homeworks.Find(tracker.HWId));
+            db.SaveChanges();
+            return RedirectToAction("Assignments", tracker);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
