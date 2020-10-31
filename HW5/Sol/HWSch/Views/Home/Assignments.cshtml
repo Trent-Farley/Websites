@@ -1,0 +1,66 @@
+﻿@model TrackerInfo
+@{
+    ViewData["Title"] = "Assignments";
+}
+<div class="container">
+    <div class="card">
+        <h4 class="card-title text-lg-center">Current Assignments</h4>
+        <form class="form" method="post" asp-action="SortBy" asp-controller="Home">
+            <button type="submit" name="Priority" value="true" class="btn btn-light">Sort by priority</button>
+            <button type="submit" name="DueDate" value="true" class="btn btn-light">Sort by due date</button>
+        </form>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Completed</th>
+                    <th>Priority</th>
+                    <th>Due</th>
+                    <th>Course</th>
+                    <th>Title</th>
+                    <th>Note</th>
+                    <th>Delete</th>
+                    @*Fix Notes stuff lates*@
+                </tr>
+            </thead>
+            @foreach (var hw in Model.Homeworks)
+            {
+                <tr>
+
+                    @if ((bool)hw.Fin)
+                    {
+                        <td>
+                            ✔
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <form method="post" asp-action="SetFin" asp-controller="Home">
+                                <button type="submit" name="HWId" value="@hw.Id" class="btn btn-outline-success">Done</button>
+                            </form>
+                        </td>
+                    }
+
+                    <td>@hw.Precedence</td>
+                    <td>@hw.DueDate</td>
+                    <td>@hw.Course</td>
+                    <td>@hw.Title</td>
+                    <td>
+                        @*@hw.Note[0]*@
+                        <button type="button" class="btn btn-outline-dark" data-container="body"
+                                data-toggle="popover" data-placement="top"
+                                data-content="@hw.Note">
+                            Details
+                        </button>
+                    </td>
+                    <td>
+                        <form method="post" asp-action="DeleteHW" asp-controller="Home">
+                            <button type="submit" name="HWId" value="@hw.Id" class="btn btn-outline-danger">❌</button>
+                        </form>
+                    </td>
+                </tr>
+
+            }
+        </table>
+    </div>
+</div>
