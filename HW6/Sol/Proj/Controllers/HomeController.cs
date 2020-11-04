@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Proj.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Proj.Controllers
 {
@@ -21,9 +23,34 @@ namespace Proj.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(SearchResult s)
         {
-            return View();
+            return View("Index", s);
+        }
+
+        [HttpGet]
+        public IActionResult SearchAlbums(SearchResult s)
+        {
+            s.AlbumResult = db.Albums.Where(alb => alb.Artist.Name.Contains(s.Search)).ToList();
+
+            foreach (var val in s.AlbumResult)
+            {
+                _logger.LogInformation($"Val inside of s: {val.Title}");
+            }
+            return View("SearchAlbums", s);
+        }
+
+        [HttpPost]
+        public IActionResult Search(SearchResult s)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("SearchAlbums", s);
+            }
+            else
+            {
+                return View("Index", s);
+            }
         }
 
         public IActionResult Privacy()

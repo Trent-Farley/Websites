@@ -1,6 +1,6 @@
 ﻿@model SearchResult
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Results";
 }
 <div class="container">
     <div class="card " style="background-color:rgb(25, 25, 25); color:#d5d5d5">
@@ -13,5 +13,10 @@
                 </div>
             </div>
         </form>
+
+        @foreach (var val in Model.AlbumResult)
+        {
+            <p style="color:white; ">@val.Title</p>
+        }
     </div>
 </div>
