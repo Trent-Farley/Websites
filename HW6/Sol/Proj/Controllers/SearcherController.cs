@@ -32,11 +32,6 @@ namespace Proj.Controllers
                 .Include(a => a.Artist)
                 .Include(t => t.Tracks)
                 .ToList();
-
-            foreach (var val in s.AlbumResult)
-            {
-                _logger.LogInformation($"Val inside of s: {val.Title}");
-            }
             return View("SearchAlbums", s);
         }
     }
