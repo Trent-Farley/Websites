@@ -1,0 +1,21 @@
+﻿@model AlbumInfo
+<div class="card card-body" style="background-color: rgb(25, 25, 25); color: #d5d5d5;">
+    <h6 class="text-center" style="color:white">Albums</h6>
+    @foreach (var val in Model.AlbumsTracks)
+    {
+
+        <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#tracks_@val.AlbumId" aria-expanded="false" aria-controls="tracks_@val.AlbumId">
+            <img class="float-left" width="20" height="30" src="~/Images/album.jpg" alt="album photo" /> @val.Title
+        </button>
+        <div class="collapse" id="tracks_@val.AlbumId">
+            <div class="card card-body" style="background-color: rgb(25, 25, 25); color: #d5d5d5;">
+                <h6 class="text-center" style="color:white">Songs</h6>
+                @foreach (var t in val.Tracks)
+                {
+                    <p class="text-center" style="color:#d5d5d5">@t.Name</p>
+                }
+            </div>
+        </div>
+
+    }
+</div>

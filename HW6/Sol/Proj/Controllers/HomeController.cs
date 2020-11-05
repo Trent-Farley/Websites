@@ -7,28 +7,38 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Proj.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Proj.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private ChinookDbContext db;
+        private ChinookDbContext _db;
 
         public HomeController(ILogger<HomeController> logger, ChinookDbContext context)
         {
-            db = context;
+            _db = context;
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(SearchResult s)
         {
-            return View();
+            return View("Index", s);
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult Search(SearchResult s)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("SearchArtists", "Searcher", s);
+            }
+            else
+            {
+                return View("Index", s);
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

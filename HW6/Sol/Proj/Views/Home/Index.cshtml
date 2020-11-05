@@ -1,8 +1,17 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model SearchResult
+@{
+    ViewData["Title"] = "Index";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="card " style="background-color:rgb(25, 25, 25); color:#d5d5d5">
+        <h4 class="card-title text-center">Search for artist to find their album!</h4>
+        <form method="post" asp-controller="Home" asp-action="Search">
+            <div class="input-group">
+                <input asp-for="Search" type="search" min="2" placeholder="Artist Name" class="form-control cool-input" aria-label="Search for artist name" />
+                <div class="input-group-append">
+                    <button class=" btn btn-outline-primary" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
