@@ -24,15 +24,24 @@ namespace Proj.Controllers
         }
 
         [HttpGet]
-        public IActionResult SearchAlbums(SearchResult s)
+        public IActionResult SearchArtists(SearchResult s)
         {
-            s.AlbumResult = _db.Albums
-                .Where(alb => alb.Artist.Name
-                .Contains(s.Search))
-                .Include(a => a.Artist)
+            s.ArtistResult = _db.Artists
+                .Where(a => a.Name.Contains(s.Search))
+                .ToList();
+
+            return View("SearchArtists", s);
+        }
+
+        [HttpGet]
+        public IActionResult AlbumTrack(SearchResult s)
+        {
+            var albInfo = new AlbumInfo();
+            albInfo.AlbumsTracks = _db.Albums
+                .Where(alb => alb.Artist.ArtistId == s.ArtistId)
                 .Include(t => t.Tracks)
                 .ToList();
-            return View("SearchAlbums", s);
+            return View("Albums", albInfo);
         }
     }
 }

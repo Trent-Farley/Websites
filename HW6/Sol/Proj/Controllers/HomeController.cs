@@ -33,7 +33,7 @@ namespace Proj.Controllers
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("SearchAlbums", "Searcher", s);
+                return RedirectToAction("SearchArtists", "Searcher", s);
             }
             else
             {

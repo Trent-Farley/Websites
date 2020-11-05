@@ -12,6 +12,7 @@ namespace Proj.Models
         [MinLength(2)]
         public string Search { get; set; } = null;
 
-        public IEnumerable<Album> AlbumResult { get; set; } = null;
+        public int ArtistId { get; set; }
+        public IEnumerable<Artist> ArtistResult { get; set; } = null;
     }
 }
