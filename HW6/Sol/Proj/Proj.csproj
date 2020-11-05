@@ -22,4 +22,12 @@
     <Watch Include="**/*.cshtml" />
     <Watch Include="**/*.css" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Views\Searcher\Albums.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Searcher\SearchAlbums.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\Home\SearchAlbum.cshtml" />
+  </ItemGroup>
 </Project>

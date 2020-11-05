@@ -15,11 +15,11 @@ namespace Proj.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private ChinookDbContext db;
+        private ChinookDbContext _db;
 
         public HomeController(ILogger<HomeController> logger, ChinookDbContext context)
         {
-            db = context;
+            _db = context;
             _logger = logger;
         }
 
@@ -28,34 +28,17 @@ namespace Proj.Controllers
             return View("Index", s);
         }
 
-        [HttpGet]
-        public IActionResult SearchAlbums(SearchResult s)
-        {
-            s.AlbumResult = db.Albums.Where(alb => alb.Artist.Name.Contains(s.Search)).ToList();
-
-            foreach (var val in s.AlbumResult)
-            {
-                _logger.LogInformation($"Val inside of s: {val.Title}");
-            }
-            return View("SearchAlbums", s);
-        }
-
         [HttpPost]
         public IActionResult Search(SearchResult s)
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("SearchAlbums", s);
+                return RedirectToAction("SearchAlbums", "Searcher", s);
             }
             else
             {
                 return View("Index", s);
             }
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
