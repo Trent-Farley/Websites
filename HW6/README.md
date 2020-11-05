@@ -1,0 +1,1 @@
+Artist search is done, all albums are displayed on a different page
