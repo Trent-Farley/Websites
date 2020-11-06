@@ -41,6 +41,7 @@ namespace Proj.Controllers
                 .Where(alb => alb.Artist.ArtistId == s.ArtistId)
                 .Include(t => t.Tracks)
                 .ToList();
+            albInfo.ArtistName = _db.Artists.Find(s.ArtistId).Name;
             return View("Albums", albInfo);
         }
     }
