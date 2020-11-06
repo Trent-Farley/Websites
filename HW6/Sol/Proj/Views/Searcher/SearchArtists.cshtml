@@ -3,7 +3,7 @@
     ViewData["Title"] = "SearchAlbums";
 }
 <div class="container">
-    <div class="card" style="background-color: rgb(25, 25, 25); color: #d5d5d5;">
+    <div class=" box-shadow card" style="background-color: rgb(25, 25, 25); color: #d5d5d5;">
         <h4 class="card-title text-center">Search for artist to find their album!</h4>
         <form method="post" asp-controller="Home" asp-action="Search">
             <div class="input-group">
@@ -13,8 +13,12 @@
                 </div>
             </div>
         </form>
-        <div asp-validation-summary="All" style="color:red;"></div>
-        @if (Model.ArtistResult.Any())
+        @if (Model.Search.Length < 2)
+        {
+            <div asp-validation-summary="All" class="box-shadow" style="color:red;"></div>
+        }
+
+        else if (Model.ArtistResult.Any())
         {
             <h6 class="text-center" style="color:white">Possible Artists</h6>
             @foreach (var val in Model.ArtistResult)

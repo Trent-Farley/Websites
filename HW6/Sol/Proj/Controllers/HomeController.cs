@@ -31,14 +31,7 @@ namespace Proj.Controllers
         [HttpPost]
         public IActionResult Search(SearchResult s)
         {
-            if (ModelState.IsValid)
-            {
-                return RedirectToAction("SearchArtists", "Searcher", s);
-            }
-            else
-            {
-                return View("Index", s);
-            }
+            return RedirectToAction("SearchArtists", "Searcher", s);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

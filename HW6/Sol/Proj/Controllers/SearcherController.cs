@@ -37,10 +37,23 @@ namespace Proj.Controllers
         public IActionResult AlbumTrack(SearchResult s)
         {
             var albInfo = new AlbumInfo();
-            albInfo.AlbumsTracks = _db.Albums
+            var info = new List<Dictionary<string, Album>>();
+            var albums = _db.Albums
                 .Where(alb => alb.Artist.ArtistId == s.ArtistId)
                 .Include(t => t.Tracks)
                 .ToList();
+            foreach (var album in albums)
+            {
+                var item = _db.Tracks
+                    .Where(tr => tr.Album.AlbumId == album.AlbumId)
+                    .GroupBy(t => t.Genre.Name)
+                    .OrderByDescending(c => c.Count())
+                    .Select(k => k.Key)
+                    .First();
+                info.Add(new Dictionary<string, Album>() { { item, album } });
+            }
+
+            albInfo.Info = info;
             albInfo.ArtistName = _db.Artists.Find(s.ArtistId).Name;
             return View("Albums", albInfo);
         }

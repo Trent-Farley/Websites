@@ -8,7 +8,8 @@ namespace Proj.Models
 {
     public class AlbumInfo
     {
-        public IEnumerable<Album> AlbumsTracks { get; set; }
+        public IEnumerable<Dictionary<string, Album>> Info { get; set; }
+
         public string ArtistName { get; set; }
     }
 }

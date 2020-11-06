@@ -1,39 +1,45 @@
 ﻿@model AlbumInfo
-<div class="card card-body" style="background-color: rgb(25, 25, 25); color: #d5d5d5;">
+<div class="card card-body box-shadow" style="background-color: rgb(25, 25, 25); color: #d5d5d5;">
     <h6 class="text-center" style="color:white">Albums by @Model.ArtistName</h6>
-    @foreach (var val in Model.AlbumsTracks)
+    @foreach (var val in Model.Info)
     {
-
-        <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#tracks_@val.AlbumId" aria-expanded="false" aria-controls="tracks_@val.AlbumId">
-            <img class="float-left" width="20" height="30" src="~/Images/album.jpg" alt="album photo" /> @val.Title
-        </button>
-        <div class="collapse" id="tracks_@val.AlbumId">
-            <div class="card card-body" style="background-color: rgb(25, 25, 25); color: #d5d5d5;">
-                <h6 class="text-center" style="color:white">Songs</h6>
-                <table class="table table-dark">
-                    <tr>
-                        <th>Duration</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                    </tr>
-
-                    @foreach (var t in val.Tracks)
-                    {
+        @foreach (var kvp in val)
+        {
+            <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#tracks_@kvp.Value.AlbumId" aria-expanded="false" aria-controls="tracks_@kvp.Value.AlbumId">
+                <h6 class="float-left"
+                    style="font-family: 'Lobster', helvetica, arial;
+                     text-shadow: 0 1px 0 white;">
+                    @kvp.Key
+                </h6>
+                @kvp.Value.Title
+            </button>
+            <div class="collapse" id="tracks_@kvp.Value.AlbumId">
+                <div class="card card-body" style="background-color: rgb(25, 25, 25); color: #d5d5d5;">
+                    <h6 class="text-center" style="color:white">Songs</h6>
+                    <table class="table table-dark">
                         <tr>
-                            @{
-                                var a = TimeSpan.FromMilliseconds(t.Milliseconds);
-                                <td>
-                                    @a.Minutes : @a.Seconds
-                                </td>
-                            }
-
-                            <td>@t.Name</td>
-                            <td>$@t.UnitPrice</td>
+                            <th>Duration</th>
+                            <th>Name</th>
+                            <th>Price</th>
                         </tr>
-                    }
-                </table>
-            </div>
-        </div>
 
+                        @foreach (var t in kvp.Value.Tracks)
+                        {
+                            <tr>
+                                @{
+                                    var a = TimeSpan.FromMilliseconds(t.Milliseconds);
+                                    <td>
+                                        @a.Minutes : @a.Seconds
+                                    </td>
+                                }
+
+                                <td>@t.Name</td>
+                                <td>$@t.UnitPrice</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        }
     }
 </div>
