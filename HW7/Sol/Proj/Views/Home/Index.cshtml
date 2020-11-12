@@ -2,7 +2,34 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<div id="content" style="display:none">
+    <div class="container">
+        <div class="card">
+            <div class="row">
+                <div class="col-sm-3">
+                    <img id="userImg" src="" alt="Profile photo" class="img-thumbnail" />
+                </div>
+                <div class="col">
+                    <div class="card-body">
+                        <h4 class="card-title" id="userName"></h4>
+                        <div class="card-text">
+                            <p id="userEmail"></p>
+                            <p id="userLocation"></p>
+                            <p id="userCompany"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-columns" id="repos">
+            <!--<div class="card">
+                <div class="card-body">-->
+            <!-- Card content -->
+            <!--</div>
+            </div>-->
+        </div>
+    </div>
+
+    @section Scripts{
+        <script src="~/js/index.js"></script>
+    }
