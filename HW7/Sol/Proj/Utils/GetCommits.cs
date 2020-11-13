@@ -49,8 +49,8 @@ namespace Proj.Utils
                     Sha = commit["sha"].ToString(),
                     AuthorName = commit["commit"]["author"]["name"].ToString(),
                     ShaUrl = commit["commit"]["url"].ToString(),
-                    AuthorAvatarUrl = commit["author"]["avatar_url"].ToString(),
-                    CommitMessage = commit["commit"]["message"].ToString()
+                    CommitMessage = commit["commit"]["message"].ToString(),
+                    Timestamp = commit["commit"]["author"]["date"].ToString()
                 };
             }
         }
