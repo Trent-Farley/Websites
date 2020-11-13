@@ -1,0 +1,1 @@
+Completed HW7, I know this is probably a pain to grade, but my code should allow github tokens and usernames to be accessed easily. 
