@@ -22,16 +22,18 @@ namespace HWSchV2.Controllers
 
         // GET: api/Homework
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Homework>>> GetHomeworks()
+        public IEnumerable<Homework> GetHomeworks()
         {
-            return await _context.Homeworks.ToListAsync();
+            return _context.Homework
+                .Include(i => i.Class)
+                .ToList();
         }
 
         // GET: api/Homework/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Homework>> GetHomework(int id)
         {
-            var homework = await _context.Homeworks.FindAsync(id);
+            var homework = await _context.Homework.FindAsync(id);
 
             if (homework == null)
             {
@@ -79,7 +81,7 @@ namespace HWSchV2.Controllers
         [HttpPost]
         public async Task<ActionResult<Homework>> PostHomework(Homework homework)
         {
-            _context.Homeworks.Add(homework);
+            _context.Homework.Add(homework);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetHomework", new { id = homework.Id }, homework);
@@ -89,13 +91,13 @@ namespace HWSchV2.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Homework>> DeleteHomework(int id)
         {
-            var homework = await _context.Homeworks.FindAsync(id);
+            var homework = await _context.Homework.FindAsync(id);
             if (homework == null)
             {
                 return NotFound();
             }
 
-            _context.Homeworks.Remove(homework);
+            _context.Homework.Remove(homework);
             await _context.SaveChangesAsync();
 
             return homework;
@@ -103,7 +105,7 @@ namespace HWSchV2.Controllers
 
         private bool HomeworkExists(int id)
         {
-            return _context.Homeworks.Any(e => e.Id == id);
+            return _context.Homework.Any(e => e.Id == id);
         }
     }
 }

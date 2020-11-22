@@ -19,7 +19,7 @@ namespace HWSchV2.Models
 
         public virtual DbSet<Course> Courses { get; set; }
         public virtual DbSet<Detail> Details { get; set; }
-        public virtual DbSet<Homework> Homeworks { get; set; }
+        public virtual DbSet<Homework> Homework { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
