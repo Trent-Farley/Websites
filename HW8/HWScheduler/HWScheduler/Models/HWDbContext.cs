@@ -26,34 +26,12 @@ namespace HWScheduler.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Name=ConnectionStrings:HWDb");
+                optionsBuilder.UseSqlServer("Name=HWDb");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Course>(entity =>
-            {
-                entity.ToTable("Course");
-
-                entity.Property(e => e.Department)
-                    .IsRequired()
-                    .HasMaxLength(6);
-            });
-
-            modelBuilder.Entity<Detail>(entity =>
-            {
-                entity.ToTable("Detail");
-
-                entity.Property(e => e.Description).HasMaxLength(512);
-
-                entity.Property(e => e.Duedate).HasColumnType("datetime");
-
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasMaxLength(64);
-            });
-
             modelBuilder.Entity<Homework>(entity =>
             {
                 entity.Property(e => e.Done).HasDefaultValueSql("((0))");
@@ -72,13 +50,6 @@ namespace HWScheduler.Models
                     .WithMany(p => p.Homework)
                     .HasForeignKey(d => d.LineId)
                     .HasConstraintName("HW_FK_TAG");
-            });
-
-            modelBuilder.Entity<Tag>(entity =>
-            {
-                entity.ToTable("Tag");
-
-                entity.Property(e => e.Tagname).HasMaxLength(40);
             });
 
             OnModelCreatingPartial(modelBuilder);

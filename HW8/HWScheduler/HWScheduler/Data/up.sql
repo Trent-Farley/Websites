@@ -24,8 +24,8 @@ GO
 
 CREATE TABLE [Course] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
-  [Department] nvarchar(6) NOT NULL,
-  [CourseNumber] int not null
+  [Name] nvarchar(25) NOT NULL,
+
 )
 GO
 

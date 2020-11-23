@@ -9,6 +9,6 @@ namespace HWScheduler.ViewModels
 {
     public class HomeworkList
     {
-        public IEnumerable<Homework> Homeworks { get; set; }
+        public IEnumerable<Homework> Assignments { get; set; }
     }
 }

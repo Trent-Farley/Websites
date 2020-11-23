@@ -14,19 +14,19 @@ namespace HWScheduler.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly HWDbContext _context;
+        private readonly HWDbContext db;
 
         public HomeController(ILogger<HomeController> logger, HWDbContext context)
         {
             _logger = logger;
-            _context = context;
+            db = context;
         }
 
         public IActionResult Index()
         {
             var test = new HomeworkList
             {
-                Homeworks = _context.Homework
+                Assignments = db.Homework
                 .Include(h => h.Class)
                 .Include(h => h.Info)
                 .Include(h => h.Line).ToList()
@@ -34,11 +34,23 @@ namespace HWScheduler.Controllers
             return View(test);
         }
 
-        public IActionResult Privacy()
+        public IActionResult ListClasses(int classId)
         {
-            return View();
+            Console.WriteLine($"Class Id: {classId}");
+            return View("ClassHws");
         }
-
+        public IActionResult AssignmentDone(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Console.WriteLine($"Hw id: {id}");
+            db.Homework.Find(id).Done = true;
+            db.Homework.Update(db.Homework.Find(id));
+            db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

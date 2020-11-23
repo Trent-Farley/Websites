@@ -1,8 +1,8 @@
-﻿INSERT INTO [Course] ( [Department], [CourseNumber])
+﻿INSERT INTO [Course] ([Name])
 	VALUES
-	('CS', 133),
-	('WR', 411),
-	('MTH', 321);
+	('CS133'),
+	('WR411'),
+	('MTH321');
 INSERT INTO [Detail] ([Precedence], [DueDate], [Title], [Description])
 	VALUES
 	(3,'11/17/2020 1:09:00 PM', 'HW1', 'Just kickin it off'),
