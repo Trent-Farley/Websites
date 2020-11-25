@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using HWScheduler.Models;
 using HWScheduler.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HWScheduler.Controllers
 {
@@ -24,32 +25,53 @@ namespace HWScheduler.Controllers
 
         public IActionResult Index()
         {
-            var test = new HomeworkList
+            return View("Index", new HomeworkList()
             {
                 Assignments = db.Homework
                 .Include(h => h.Class)
                 .Include(h => h.Info)
-                .Include(h => h.Line).ToList()
-            };
-            return View(test);
+                .Include(h => h.Line).ToList(),
+                Courses = db.Courses.ToList(),
+                CourseList = false
+            });
         }
 
-        public IActionResult ListClasses(int classId)
+        public IActionResult CourseList(int? id)
         {
-            Console.WriteLine($"Class Id: {classId}");
-            return View("ClassHws");
+            if (id == null)
+            {
+                return NotFound();
+            }
+            IEnumerable<Homework> homeworks = db.Homework
+                .Where(h => h.Class.Id == id)
+                .Include(h => h.Info)
+                .Include(h => h.Line)
+                .ToList();
+            return View("Index", new HomeworkList()
+            {
+                Assignments = homeworks,
+                Courses = db.Courses.ToList(),
+                CourseList = true
+            });
         }
+
+
         public IActionResult AssignmentDone(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            Console.WriteLine($"Hw id: {id}");
             db.Homework.Find(id).Done = true;
             db.Homework.Update(db.Homework.Find(id));
             db.SaveChanges();
             return RedirectToAction(nameof(Index));
+        }
+        public IActionResult Create()
+        {
+            ViewData["Classes"] = new SelectList(db.Courses, "Id", "Name");
+            ViewData["Tags"] = db.Tags;
+            return View();
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

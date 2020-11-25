@@ -18,7 +18,7 @@ namespace HWScheduler.Models
 
         [Key]
         public int Id { get; set; }
-        [StringLength(40)]
+        [StringLength(512)]
         public string Tagname { get; set; }
 
         [InverseProperty("Line")]

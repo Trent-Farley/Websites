@@ -49,7 +49,7 @@ namespace HWScheduler.Controllers
         // GET: Homework/Create
         public IActionResult Create()
         {
-            ViewData["ClassId"] = new SelectList(_context.Courses, "Id", "Department");
+            ViewData["ClassId"] = new SelectList(_context.Courses, "Id", "Name");
             ViewData["InfoId"] = new SelectList(_context.Details, "Id", "Title");
             ViewData["LineId"] = new SelectList(_context.Tags, "Id", "Tagname");
             return View();
@@ -68,7 +68,7 @@ namespace HWScheduler.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClassId"] = new SelectList(_context.Courses, "Id", "Department", homework.ClassId);
+            ViewData["ClassId"] = new SelectList(_context.Courses, "Id", "ClassId", homework.ClassId);
             ViewData["InfoId"] = new SelectList(_context.Details, "Id", "Title", homework.InfoId);
             ViewData["LineId"] = new SelectList(_context.Tags, "Id", "Tagname", homework.LineId);
             return View(homework);

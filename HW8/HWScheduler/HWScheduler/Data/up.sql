@@ -18,7 +18,7 @@ GO
 
 CREATE TABLE [Tag] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
-  [Tagname] nvarchar(40)
+  [Tagname] nvarchar(512)
 )
 GO
 
