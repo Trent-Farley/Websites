@@ -21,7 +21,7 @@ namespace HWScheduler.Controllers
         // GET: Homework
         public async Task<IActionResult> Index()
         {
-            var hWDbContext = _context.Homework.Include(h => h.Class).Include(h => h.Info).Include(h => h.Line);
+            var hWDbContext = _context.Homework.Include(h => h.Class).Include(h => h.Line);
             return View(await hWDbContext.ToListAsync());
         }
 
@@ -35,7 +35,6 @@ namespace HWScheduler.Controllers
 
             var homework = await _context.Homework
                 .Include(h => h.Class)
-                .Include(h => h.Info)
                 .Include(h => h.Line)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (homework == null)
@@ -50,7 +49,6 @@ namespace HWScheduler.Controllers
         public IActionResult Create()
         {
             ViewData["ClassId"] = new SelectList(_context.Courses, "Id", "Name");
-            ViewData["InfoId"] = new SelectList(_context.Details, "Id", "Title");
             ViewData["LineId"] = new SelectList(_context.Tags, "Id", "Tagname");
             return View();
         }
@@ -69,7 +67,6 @@ namespace HWScheduler.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ClassId"] = new SelectList(_context.Courses, "Id", "ClassId", homework.ClassId);
-            ViewData["InfoId"] = new SelectList(_context.Details, "Id", "Title", homework.InfoId);
             ViewData["LineId"] = new SelectList(_context.Tags, "Id", "Tagname", homework.LineId);
             return View(homework);
         }
@@ -88,7 +85,6 @@ namespace HWScheduler.Controllers
                 return NotFound();
             }
             ViewData["ClassId"] = new SelectList(_context.Courses, "Id", "Department", homework.ClassId);
-            ViewData["InfoId"] = new SelectList(_context.Details, "Id", "Title", homework.InfoId);
             ViewData["LineId"] = new SelectList(_context.Tags, "Id", "Tagname", homework.LineId);
             return View(homework);
         }
@@ -126,7 +122,6 @@ namespace HWScheduler.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ClassId"] = new SelectList(_context.Courses, "Id", "Department", homework.ClassId);
-            ViewData["InfoId"] = new SelectList(_context.Details, "Id", "Title", homework.InfoId);
             ViewData["LineId"] = new SelectList(_context.Tags, "Id", "Tagname", homework.LineId);
             return View(homework);
         }
@@ -141,7 +136,6 @@ namespace HWScheduler.Controllers
 
             var homework = await _context.Homework
                 .Include(h => h.Class)
-                .Include(h => h.Info)
                 .Include(h => h.Line)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (homework == null)

@@ -15,12 +15,9 @@
                     <a class="btn btn-outline-primary" asp-action="CourseList" asp-route-id="@course.Id">@course.Name</a>
                 </div>
             }
-            <div class="col">
-                <a style="float:right;" asp-action="Create" class="btn btn-outline-danger">➕</a>
-            </div>
         </div>
     </div>
-
+    <a style="bottom:3%; right:20%; position:absolute" asp-action="Create" class="btn btn-outline-danger">➕</a>
 
 
     <table class="table table-striped">
@@ -44,15 +41,16 @@
                         @*Set value of done to true*@
                         <td><a asp-action="AssignmentDone" asp-route-id="@h.Id" class="btn btn-outline-success curved">✔</a></td>
                         <td>@h.Class.Name</td>
-                        <td>@h.Info.Title</td>
+                        <td>@h.Title</td>
                         <td>
-                            @foreach (var t in h.Line.Tagname.Split(" "))
-                            {
-                                <div class="btn btn-primary">@t</div>
-                            }
+                            @*@foreach (var t in h.Line.Tagname.Split(" "))
+                                {
+                                    <div class="btn btn-primary">@t</div>
+                                }*@
+                            Tag
                         </td>
-                        <td>@h.Info.Description</td>
-                        <td>@h.Info.Duedate</td>
+                        <td>@h.Description</td>
+                        <td>@h.Duedate</td>
                     </tr>
                 }
             }

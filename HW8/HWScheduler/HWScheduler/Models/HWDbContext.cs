@@ -18,7 +18,6 @@ namespace HWScheduler.Models
         }
 
         public virtual DbSet<Course> Courses { get; set; }
-        public virtual DbSet<Detail> Details { get; set; }
         public virtual DbSet<Homework> Homework { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
 
@@ -40,11 +39,6 @@ namespace HWScheduler.Models
                     .WithMany(p => p.Homework)
                     .HasForeignKey(d => d.ClassId)
                     .HasConstraintName("HW_FK_COURSE");
-
-                entity.HasOne(d => d.Info)
-                    .WithMany(p => p.Homework)
-                    .HasForeignKey(d => d.InfoId)
-                    .HasConstraintName("HW_FK_DETAIL");
 
                 entity.HasOne(d => d.Line)
                     .WithMany(p => p.Homework)

@@ -29,12 +29,12 @@
                 <br />
                 <div class="form-group range-wrap">
                     <label id="Priority" class="col-form-label-md">Priority</label>
-                    <input asp-for="Info.Precedence" id="Priority" type="range" class="form-control-range range" min="1" max="5">
+                    <input asp-for="Precedence" id="Priority" type="range" class="form-control-range range" min="1" max="5">
                     <output class=" btn btn-info bubble"></output>
                 </div>
                 <div class="form-group ">
                     <label for="DueDate" class="col-form-label-md">Due Date: </label>
-                    <input asp-for="Info.Duedate" id="DueDate" type="datetime-local" style="width:100%">
+                    <input asp-for="Duedate" id="DueDate" type="datetime-local" style="width:100%">
                 </div>
                 <div class="form-group ">
                     <label for="courses" class="col-form-label-md">Course: </label>
@@ -42,12 +42,12 @@
                 </div>
                 <div class="form-group ">
                     <label for="Title" class="col-form-label-md">Title: </label>
-                    <input id="Title" placeholder="HTML Assignment" asp-for="Info.Title" class="form-control" maxlength="64" min="1" style="width:100%">
+                    <input id="Title" placeholder="HTML Assignment" asp-for="Title" class="form-control" maxlength="64" min="1" style="width:100%">
                 </div>
 
                 <div class="form-group ">
                     <label for="Note" class="col-form-label-md">Note: </label>
-                    <textarea id="Note" type="text" asp-for="Info.Description" placeholder="I am going to do mine on puppies!" class="" maxlength="512" style="width:100%"></textarea>
+                    <textarea id="Note" type="text" asp-for="Description" placeholder="I am going to do mine on puppies!" class="" maxlength="512" style="width:100%"></textarea>
                 </div>
                 <button type="submit" value="Create" class="btn btn-outline-primary">Track Assignment!</button>
             </form>

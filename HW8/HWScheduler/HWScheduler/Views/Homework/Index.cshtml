@@ -18,9 +18,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Class)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Info)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Line)
             </th>
@@ -38,7 +36,7 @@
                     @Html.DisplayFor(modelItem => item.Class.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Info.Title)
+                    @Html.DisplayFor(modelItem => item.Title)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Line.Tagname)

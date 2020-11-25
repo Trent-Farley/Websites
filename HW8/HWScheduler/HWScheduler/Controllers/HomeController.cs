@@ -29,7 +29,6 @@ namespace HWScheduler.Controllers
             {
                 Assignments = db.Homework
                 .Include(h => h.Class)
-                .Include(h => h.Info)
                 .Include(h => h.Line).ToList(),
                 Courses = db.Courses.ToList(),
                 CourseList = false
@@ -44,7 +43,6 @@ namespace HWScheduler.Controllers
             }
             IEnumerable<Homework> homeworks = db.Homework
                 .Where(h => h.Class.Id == id)
-                .Include(h => h.Info)
                 .Include(h => h.Line)
                 .ToList();
             return View("Index", new HomeworkList()
@@ -73,6 +71,21 @@ namespace HWScheduler.Controllers
             ViewData["Tags"] = db.Tags;
             return View();
         }
+        //[Bind("Precedence, DueDate, ClassId, Title, Description")]
+        [HttpPost]
+        public IActionResult Create(Homework hw)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Add(hw);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewData["Classes"] = new SelectList(db.Courses, "Id", "Name");
+            ViewData["Tags"] = db.Tags;
+            return View(hw);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
