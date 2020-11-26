@@ -25,6 +25,11 @@ namespace HWScheduler.Controllers
 
         public IActionResult Index()
         {
+            //foreach (var t in db.Homework.Select(t => t.Line).ToList())
+            //{
+            //    Console.WriteLine($"Inside of HW {t.Tagname}");
+            //}
+
             return View("Index", new HomeworkList()
             {
                 Assignments = db.Homework
@@ -71,7 +76,8 @@ namespace HWScheduler.Controllers
             ViewData["Tags"] = db.Tags;
             return View();
         }
-        //[Bind("Precedence, DueDate, ClassId, Title, Description")]
+
+
         [HttpPost]
         public IActionResult Create(Homework hw)
         {
@@ -84,6 +90,26 @@ namespace HWScheduler.Controllers
             ViewData["Classes"] = new SelectList(db.Courses, "Id", "Name");
             ViewData["Tags"] = db.Tags;
             return View(hw);
+        }
+
+        public IActionResult AddClasses()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddClasses(IEnumerable<string> classes)
+        {
+            foreach (var course in classes)
+            {
+                var tmp = new Course
+                {
+                    Name = course
+                };
+                db.Courses.Add(tmp);
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

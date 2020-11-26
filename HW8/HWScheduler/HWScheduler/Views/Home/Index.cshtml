@@ -2,6 +2,9 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+
+<a asp-action="AddClasses" class="btn btn-primary">Add Classes</a>
+
 <div class="container">
     <div class="container-fluid">
         <div class="row">
@@ -25,6 +28,7 @@
         <thead>
             <tr>
                 <th></th>
+                <th>Priority</th>
                 <th>Class</th>
                 <th>Assignment</th>
                 <th>Tags</th>
@@ -38,9 +42,11 @@
                 @if ((bool)!h.Done)
                 {
                     <tr>
-                        @*Set value of done to true*@
+
                         <td><a asp-action="AssignmentDone" asp-route-id="@h.Id" class="btn btn-outline-success curved">✔</a></td>
+                        <td>@h.Precedence</td>
                         <td>@h.Class.Name</td>
+
                         <td>@h.Title</td>
                         <td>
                             @*@foreach (var t in h.Line.Tagname.Split(" "))

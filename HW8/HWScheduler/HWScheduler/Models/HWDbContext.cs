@@ -19,6 +19,7 @@ namespace HWScheduler.Models
 
         public virtual DbSet<Course> Courses { get; set; }
         public virtual DbSet<Homework> Homework { get; set; }
+        public virtual DbSet<HomeworkTag> HomeworkTags { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -44,6 +45,21 @@ namespace HWScheduler.Models
                     .WithMany(p => p.Homework)
                     .HasForeignKey(d => d.LineId)
                     .HasConstraintName("HW_FK_TAG");
+            });
+
+            modelBuilder.Entity<HomeworkTag>(entity =>
+            {
+                entity.HasOne(d => d.Hw)
+                    .WithMany()
+                    .HasForeignKey(d => d.HwId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__HomeworkTa__HwId__3493CFA7");
+
+                entity.HasOne(d => d.Label)
+                    .WithMany()
+                    .HasForeignKey(d => d.LabelId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__HomeworkT__Label__3587F3E0");
             });
 
             OnModelCreatingPartial(modelBuilder);
