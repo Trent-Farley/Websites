@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace HWScheduler.ViewModels
 {
-    public class CreateView
+    public class HomeworkAdd
     {
-        public IEnumerable<Homework> Homeworks { get; set; }
+        public Homework Homework { get; set; }
+        public IEnumerable<Tag> Tags { get; set; }
 
     }
 }

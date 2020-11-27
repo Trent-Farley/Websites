@@ -1,27 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
 namespace HWScheduler.Models
 {
-    [Table("Tag")]
     public partial class Tag
     {
         public Tag()
         {
-            Homework = new HashSet<Homework>();
+            HomeworkTags = new HashSet<HomeworkTag>();
         }
 
-        [Key]
         public int Id { get; set; }
-        [StringLength(512)]
         public string Tagname { get; set; }
 
-        [InverseProperty("Line")]
-        public virtual ICollection<Homework> Homework { get; set; }
+        public virtual ICollection<HomeworkTag> HomeworkTags { get; set; }
     }
 }

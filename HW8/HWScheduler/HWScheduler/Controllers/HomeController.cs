@@ -23,23 +23,16 @@ namespace HWScheduler.Controllers
             db = context;
         }
 
-        public IActionResult Index()
-        {
-            //foreach (var t in db.Homework.Select(t => t.Line).ToList())
-            //{
-            //    Console.WriteLine($"Inside of HW {t.Tagname}");
-            //}
-
-            return View("Index", new HomeworkList()
+        public IActionResult Index() =>
+            View("Index", new HomeworkList()
             {
                 Assignments = db.Homework
                 .Include(h => h.Class)
-                .Include(h => h.Line).ToList(),
+                .Include(t => t.HomeworkTags)
+                .ThenInclude(tn => tn.Tag),
                 Courses = db.Courses.ToList(),
                 CourseList = false
             });
-        }
-
         public IActionResult CourseList(int? id)
         {
             if (id == null)
@@ -48,7 +41,8 @@ namespace HWScheduler.Controllers
             }
             IEnumerable<Homework> homeworks = db.Homework
                 .Where(h => h.Class.Id == id)
-                .Include(h => h.Line)
+                .Include(t => t.HomeworkTags)
+                .ThenInclude(tn => tn.Tag)
                 .ToList();
             return View("Index", new HomeworkList()
             {
@@ -73,7 +67,7 @@ namespace HWScheduler.Controllers
         public IActionResult Create()
         {
             ViewData["Classes"] = new SelectList(db.Courses, "Id", "Name");
-            ViewData["Tags"] = db.Tags;
+            ViewData["Tags"] = db.Tags.ToList();
             return View();
         }
 
@@ -88,8 +82,13 @@ namespace HWScheduler.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["Classes"] = new SelectList(db.Courses, "Id", "Name");
-            ViewData["Tags"] = db.Tags;
             return View(hw);
+        }
+
+        public IActionResult GetTags()
+        {
+            List<Tag> tags = db.Tags.ToList();
+            return Json(tags);
         }
 
         public IActionResult AddClasses()
@@ -98,15 +97,19 @@ namespace HWScheduler.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddClasses(IEnumerable<string> classes)
+        public IActionResult AddClasses(string classes)
         {
-            foreach (var course in classes)
+            foreach (var course in classes.Split(','))
             {
+
                 var tmp = new Course
                 {
                     Name = course
                 };
-                db.Courses.Add(tmp);
+                if (!db.Courses.Where(c => c.Name == tmp.Name).Any())
+                {
+                    db.Courses.Add(tmp);
+                }
             }
             db.SaveChanges();
             return RedirectToAction("Index");

@@ -3,9 +3,9 @@
     ViewData["Title"] = "Home Page";
 }
 
-<a asp-action="AddClasses" class="btn btn-primary">Add Classes</a>
 
-<div class="container">
+
+<div class="container" style="position:relative;">
     <div class="container-fluid">
         <div class="row">
             <div class="col">
@@ -18,9 +18,13 @@
                     <a class="btn btn-outline-primary" asp-action="CourseList" asp-route-id="@course.Id">@course.Name</a>
                 </div>
             }
+            <div class="col">
+                <a asp-action="AddClasses" class="btn btn-primary">Add Classes</a>
+            </div>
         </div>
+
     </div>
-    <a style="bottom:3%; right:20%; position:absolute" asp-action="Create" class="btn btn-outline-danger">➕</a>
+    <a style="bottom:0; position:absolute; right:1%;" asp-action="Create" class="btn btn-outline-dark">➕</a>
 
 
     <table class="table table-striped">
@@ -49,11 +53,10 @@
 
                         <td>@h.Title</td>
                         <td>
-                            @*@foreach (var t in h.Line.Tagname.Split(" "))
-                                {
-                                    <div class="btn btn-primary">@t</div>
-                                }*@
-                            Tag
+                            @foreach (var t in h.HomeworkTags)
+                            {
+                                <p class="btn btn-success">@t.Tag.Tagname</p>
+                            }
                         </td>
                         <td>@h.Description</td>
                         <td>@h.Duedate</td>
@@ -62,4 +65,5 @@
             }
         </tbody>
     </table>
+    <br /><br />
 </div>

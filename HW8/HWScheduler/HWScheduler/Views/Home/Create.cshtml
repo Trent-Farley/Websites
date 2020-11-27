@@ -40,6 +40,15 @@
                     <label for="courses" class="col-form-label-md">Course: </label>
                     <select asp-for="ClassId" class="form-control" asp-items="ViewBag.Classes"></select>
                 </div>
+                <div class="form-group" id="checks">
+                    @foreach (var t in ViewBag.Tags)
+                    {
+                        <div class="form-check form-check-inline">
+                            <input onchange="getSelected(@t" class="form-check-input" type="checkbox" id="tag_@t.Tagname" value="@t.Tagname">
+                            <label class="form-check-label" for="tag_@t.Tagname">@t.Tagname</label>
+                        </div>
+                    }
+                </div>
                 <div class="form-group ">
                     <label for="Title" class="col-form-label-md">Title: </label>
                     <input id="Title" placeholder="HTML Assignment" asp-for="Title" class="form-control" maxlength="64" min="1" style="width:100%">
@@ -59,5 +68,5 @@
 
 @section Scripts {
     <script src="~/js/bubble.js"></script>
-
+    <script src="~/js/tags.js"></script>
 }

@@ -32,34 +32,60 @@ namespace HWScheduler.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Course>(entity =>
+            {
+                entity.ToTable("Course");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(25);
+            });
+
             modelBuilder.Entity<Homework>(entity =>
             {
+                entity.Property(e => e.Description).HasMaxLength(512);
+
                 entity.Property(e => e.Done).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Duedate).HasColumnType("datetime");
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(64);
 
                 entity.HasOne(d => d.Class)
                     .WithMany(p => p.Homework)
                     .HasForeignKey(d => d.ClassId)
                     .HasConstraintName("HW_FK_COURSE");
-
-                entity.HasOne(d => d.Line)
-                    .WithMany(p => p.Homework)
-                    .HasForeignKey(d => d.LineId)
-                    .HasConstraintName("HW_FK_TAG");
             });
 
             modelBuilder.Entity<HomeworkTag>(entity =>
             {
-                entity.HasOne(d => d.Hw)
-                    .WithMany()
-                    .HasForeignKey(d => d.HwId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HomeworkTa__HwId__3493CFA7");
+                entity.HasKey(e => new { e.HomeworkId, e.TagId })
+                    .HasName("PK__Homework__DA80AD0A60DDF5E5");
 
-                entity.HasOne(d => d.Label)
-                    .WithMany()
-                    .HasForeignKey(d => d.LabelId)
+                entity.Property(e => e.HomeworkId).HasColumnName("Homework_Id");
+
+                entity.Property(e => e.TagId).HasColumnName("Tag_Id");
+
+                entity.HasOne(d => d.Homework)
+                    .WithMany(p => p.HomeworkTags)
+                    .HasForeignKey(d => d.HomeworkId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HomeworkT__Label__3587F3E0");
+                    .HasConstraintName("Fk_Homework");
+
+                entity.HasOne(d => d.Tag)
+                    .WithMany(p => p.HomeworkTags)
+                    .HasForeignKey(d => d.TagId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_Tag");
+            });
+
+            modelBuilder.Entity<Tag>(entity =>
+            {
+                entity.ToTable("Tag");
+
+                entity.Property(e => e.Tagname).HasMaxLength(512);
             });
 
             OnModelCreatingPartial(modelBuilder);

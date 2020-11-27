@@ -3,10 +3,10 @@
     ViewData["Title"] = "Add Classes";
 }
 
-<form id="classAdd" onsubmit="getClasses(); return false;">
+<form id="classAdd" method="post">
     <div class="form-group ">
-        <label for="Classes" class="col-form-label-md">Classes: </label>
-        <textarea id="Classes" type="text" placeholder="CS460, WR111, IS404, ANTH2020, ...," class="" maxlength="512" style="width:100%"></textarea>
+        <label for="classes" class="col-form-label-md">Classes: </label>
+        <textarea id="classes" type="text" placeholder="CS460, WR111, IS404, ANTH2020, ...," name="classes" class="" maxlength="512" style="width:100%"></textarea>
         <button type="submit" class="btn btn-outline-primary">Track Classes</button>
     </div>
 </form>

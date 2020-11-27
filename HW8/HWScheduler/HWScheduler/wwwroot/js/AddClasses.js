@@ -1,23 +1,10 @@
-﻿
-let getClasses = () => {
-
-    const courses = $("#Classes").val()
+﻿$("#classAdd").on('submit', () => {
+    console.log("hit");
+    const courses = $("#classes").val()
         .toUpperCase()
         .replace(/\s/g, "")
         .split(",");
 
-    $.ajax({
-        type: 'POST',
-        url: '/Home/AddClasses',
-        data: { classes: courses },
-        dataType: "json",
-        success: () => {
-
-        },
-        error: (e) => {
-            console.log(e);
-        }
-    })
-    window.location.href = "/Home";
-    return false;
-}
+    $('#classes').val(courses);
+    console.log($('#classes').val());
+});
