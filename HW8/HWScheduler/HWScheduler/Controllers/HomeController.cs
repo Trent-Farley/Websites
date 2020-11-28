@@ -9,6 +9,7 @@ using HWScheduler.Models;
 using HWScheduler.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json.Linq;
 
 namespace HWScheduler.Controllers
 {
@@ -64,6 +65,7 @@ namespace HWScheduler.Controllers
             db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
+        [HttpGet]
         public IActionResult Create()
         {
             ViewData["Classes"] = new SelectList(db.Courses, "Id", "Name");
@@ -71,18 +73,67 @@ namespace HWScheduler.Controllers
             return View();
         }
 
-
-        [HttpPost]
-        public IActionResult Create(Homework hw)
+        public IActionResult AddHw(Homework hw, IEnumerable<string> tagIds)
         {
             if (ModelState.IsValid)
             {
                 db.Add(hw);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+
+                //var id = int.Parse(new string(t.Where(c => char.IsDigit(c)).ToArray()));
+                var id = db.Tags.OrderByDescending(r => r.Id).FirstOrDefault().Id;
+
+                var tempHWT = new HomeworkTag
+                {
+                    Tag = db.Tags.Where(t => t.Id == id).Single(),
+                    TagId = db.Tags.Where(t => t.Id == id).Single().Id,
+                    HomeworkId = hw.Id,
+                    Homework = hw
+                };
+                _logger.LogInformation(tempHWT.TagId.ToString());
+                db.HomeworkTags.Add(tempHWT);
+
+
+                db.SaveChanges();
+                return Json(new { success = true });
             }
-            ViewData["Classes"] = new SelectList(db.Courses, "Id", "Name");
-            return View(hw);
+            var errors = new List<string>();
+            foreach (var modelstate in ViewData.ModelState.Values)
+            {
+                foreach (var err in modelstate.Errors)
+                {
+                    errors.Append(err.ToString());
+                }
+            }
+            return Json(new { success = false, errors });
+        }
+
+        [HttpPost]
+        public IActionResult Create(string hw)
+        {
+            var assignment = GetHomework(hw);
+            return RedirectToAction("AddHw", assignment);
+        }
+
+        private Homework GetHomework(string hw)
+        {
+            var data = JObject.Parse(hw);
+            var newHw = new Homework
+            {
+                ClassId = int.Parse(data["Class"].ToString()),
+                Precedence = int.Parse(data["Priority"].ToString()),
+                Duedate = DateTime.Parse(data["DueDate"].ToString()),
+                Title = data["Title"].ToString(),
+                Description = data["Note"].ToString()
+            };
+            // Get tagIds to AddHW function. 
+            var tagIds = data["Tags"].ToString()
+                            .Replace('[', ' ')
+                            .Replace(']', ' ').Split(',');
+
+
+            return newHw;
         }
 
         public IActionResult GetTags()

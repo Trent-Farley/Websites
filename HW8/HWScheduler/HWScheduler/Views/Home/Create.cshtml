@@ -1,4 +1,4 @@
-﻿@model Homework
+﻿
 
 @{
     ViewData["Title"] = "Create";
@@ -24,41 +24,41 @@
             </div>
         </div>
         <div class="col card">
-            <div asp-validation-summary="ModelOnly" style="color:red;"></div>
-            <form asp-action="Create" method="post">
+            @*<div asp-validation-summary="ModelOnly" style="color:red;"></div>*@
+            <form>
                 <br />
                 <div class="form-group range-wrap">
                     <label id="Priority" class="col-form-label-md">Priority</label>
-                    <input asp-for="Precedence" id="Priority" type="range" class="form-control-range range" min="1" max="5">
+                    <input name="Priority" id="Priority" type="range" class="form-control-range range" min="1" max="5" required>
                     <output class=" btn btn-info bubble"></output>
                 </div>
                 <div class="form-group ">
                     <label for="DueDate" class="col-form-label-md">Due Date: </label>
-                    <input asp-for="Duedate" id="DueDate" type="datetime-local" style="width:100%">
+                    <input name="DueDate" id="DueDate" type="datetime-local" style="width:100%" required>
                 </div>
                 <div class="form-group ">
                     <label for="courses" class="col-form-label-md">Course: </label>
-                    <select asp-for="ClassId" class="form-control" asp-items="ViewBag.Classes"></select>
+                    <select name="Class" class="form-control" asp-items="ViewBag.Classes" required></select>
                 </div>
                 <div class="form-group" id="checks">
                     @foreach (var t in ViewBag.Tags)
                     {
                         <div class="form-check form-check-inline">
-                            <input onchange="getSelected(@t" class="form-check-input" type="checkbox" id="tag_@t.Tagname" value="@t.Tagname">
+                            <input name="Tags" class="form-check-input" type="checkbox" id="tag_@t.Tagname" value="@t.Id">
                             <label class="form-check-label" for="tag_@t.Tagname">@t.Tagname</label>
                         </div>
                     }
                 </div>
                 <div class="form-group ">
                     <label for="Title" class="col-form-label-md">Title: </label>
-                    <input id="Title" placeholder="HTML Assignment" asp-for="Title" class="form-control" maxlength="64" min="1" style="width:100%">
+                    <input name="Title" id="Title" placeholder="HTML Assignment" class="form-control" maxlength="64" min="1" style="width:100%" required>
                 </div>
 
                 <div class="form-group ">
                     <label for="Note" class="col-form-label-md">Note: </label>
-                    <textarea id="Note" type="text" asp-for="Description" placeholder="I am going to do mine on puppies!" class="" maxlength="512" style="width:100%"></textarea>
+                    <textarea name="Note" id="Note" type="text" placeholder="I am going to do mine on puppies!" class="" maxlength="512" style="width:100%"></textarea>
                 </div>
-                <button type="submit" value="Create" class="btn btn-outline-primary">Track Assignment!</button>
+                <button type="submit" class="btn btn-outline-primary">Track Assignment!</button>
             </form>
             <br />
         </div>
@@ -69,4 +69,6 @@
 @section Scripts {
     <script src="~/js/bubble.js"></script>
     <script src="~/js/tags.js"></script>
+
+
 }
