@@ -1,0 +1,73 @@
+﻿
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Got a new Homework Assignment?</h4>
+                    <p class="card-text">
+                        Use this page to enter information about your assignment. Add it and then we'll keep track of it for you. We'll let you see your assignments by priority or due date so you'll never miss getting something done!
+                        <br /><br />
+                        <strong>Here's what the parts mean:</strong><br /><br />
+                        <strong>Priority 5 --💀💀--</strong> Highest priority<br />
+                        <strong>Priority 1 --🤷‍♀️🤷‍♀-- </strong> Lowest priority<br />
+                        <strong>Due --</strong> due date and time (use Chrome to see a nice date/time chooser)<br />
+                        <strong>Course -- </strong>Enter it like this CS 460, WR 355.. and we can keep track of assignments for each department and class number<br />
+                        <strong>Title -- </strong> Maybe "HW #1 HTML and CSS"<br />
+                        <strong>Notes-- </strong> Remind yourself what needs to be done or what's important to complete it; or just whatever you want to say about this assignment.<br />
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col card">
+            @*<div asp-validation-summary="ModelOnly" style="color:red;"></div>*@
+            <form>
+                <br />
+                <div class="form-group range-wrap">
+                    <label id="Priority" class="col-form-label-md">Priority</label>
+                    <input name="Priority" id="Priority" type="range" class="form-control-range range" min="1" max="5" required>
+                    <output class=" btn btn-info bubble"></output>
+                </div>
+                <div class="form-group ">
+                    <label for="DueDate" class="col-form-label-md">Due Date: </label>
+                    <input name="DueDate" id="DueDate" type="datetime-local" style="width:100%" required>
+                </div>
+                <div class="form-group ">
+                    <label for="courses" class="col-form-label-md">Course: </label>
+                    <select name="Class" class="form-control" asp-items="ViewBag.Classes" required></select>
+                </div>
+
+                <div class="form-group" id="checks">
+                </div>
+                <div id="newTag" class="form-group">
+                    <label for="newT" class="col-form-label-md">Add new tag:</label>
+                    <input id="newT" placeholder="Fun" class="form-control" maxlength="10" />
+                    <button onclick="sendTags()" class="btn btn-outline-primary">➕</button>
+                </div>
+                <div class="form-group ">
+                    <label for="Title" class="col-form-label-md">Title: </label>
+                    <input name="Title" id="Title" placeholder="HTML Assignment" class="form-control" maxlength="64" min="1" style="width:100%" required>
+                </div>
+
+                <div class="form-group ">
+                    <label for="Note" class="col-form-label-md">Note: </label>
+                    <textarea name="Note" id="Note" type="text" placeholder="I am going to do mine on puppies!" class="" maxlength="512" style="width:100%"></textarea>
+                </div>
+                <button type="submit" class="btn btn-outline-primary">Track Assignment!</button>
+            </form>
+            <br />
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/bubble.js"></script>
+    <script src="~/js/tags.js"></script>
+    <script src="~/js/addTags.js"></script>
+
+}

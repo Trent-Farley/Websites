@@ -2,17 +2,40 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-<div class="container">
-    <button style="float:right;" class="btn btn-outline-danger">➕</button>
+
+
+
+<div class="container" style="position:relative;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-outline-dark" asp-action="Index">All</a>
+
+            </div>
+            @foreach (var course in Model.Courses)
+            {
+                <div style="margin:0; padding:0;" class="col">
+                    <a class="btn btn-outline-primary" asp-action="CourseList" asp-route-id="@course.Id">@course.Name</a>
+                </div>
+            }
+            <div class="col">
+                <a asp-action="AddClasses" class="btn btn-primary">Add Classes</a>
+            </div>
+        </div>
+
+    </div>
+    <a style="bottom:0; position:absolute; right:1%;" asp-action="Create" class="btn btn-outline-dark">➕</a>
+
 
     <table class="table table-striped">
         @*Done | Class | Assignment | Tagname | Due*@
         <thead>
             <tr>
                 <th></th>
+                <th>Priority</th>
                 <th>Class</th>
                 <th>Assignment</th>
-                <th>Tag</th>
+                <th>Tags</th>
                 <th>Description</th>
                 <th>Due Date</th>
             </tr>
@@ -23,16 +46,24 @@
                 @if ((bool)!h.Done)
                 {
                     <tr>
-                        @*Set value of done to true*@
+
                         <td><a asp-action="AssignmentDone" asp-route-id="@h.Id" class="btn btn-outline-success curved">✔</a></td>
-                        <td><button class="btn btn-outline-primary" asp-action="ListClasses" asp-route-id="@h.Class.Id">@h.Class.Name</button> </td>
-                        <td>@h.Info.Title</td>
-                        <td>@h.Line.Tagname</td>
-                        <td>@h.Info.Description</td>
-                        <td>@h.Info.Duedate</td>
+                        <td>@h.Precedence</td>
+                        <td>@h.Class.Name</td>
+
+                        <td>@h.Title</td>
+                        <td>
+                            @foreach (var t in h.HomeworkTags)
+                            {
+                                <p class="btn btn-success">@t.Tag.Tagname</p>
+                            }
+                        </td>
+                        <td>@h.Description</td>
+                        <td>@h.Duedate</td>
                     </tr>
                 }
             }
         </tbody>
     </table>
+    <br /><br />
 </div>
