@@ -10,6 +10,7 @@ using HWScheduler.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json.Linq;
+using HWScheduler.Utils;
 
 namespace HWScheduler.Controllers
 {
@@ -73,29 +74,36 @@ namespace HWScheduler.Controllers
             return View();
         }
 
-        public IActionResult AddHw(Homework hw, IEnumerable<string> tagIds)
+        [HttpPost]
+        public IActionResult Create(string hw)
         {
+            var parser = new ParseHomework();
+            var assignment = parser.GetHomework(hw, out List<string> ids);
+            return AddHw(assignment, ids);
+        }
+
+        public IActionResult AddHw(Homework assign, List<string> tagIds)
+        {
+
             if (ModelState.IsValid)
             {
-                db.Add(hw);
+                db.Add(assign);
                 db.SaveChanges();
 
-
-                //var id = int.Parse(new string(t.Where(c => char.IsDigit(c)).ToArray()));
-                var id = db.Tags.OrderByDescending(r => r.Id).FirstOrDefault().Id;
-
-                var tempHWT = new HomeworkTag
+                foreach (var t in tagIds)
                 {
-                    Tag = db.Tags.Where(t => t.Id == id).Single(),
-                    TagId = db.Tags.Where(t => t.Id == id).Single().Id,
-                    HomeworkId = hw.Id,
-                    Homework = hw
-                };
-                _logger.LogInformation(tempHWT.TagId.ToString());
-                db.HomeworkTags.Add(tempHWT);
+                    var id = int.Parse(new string(t.Where(c => char.IsDigit(c)).ToArray()));
+                    var tempHWT = new HomeworkTag
+                    {
+                        Tag = db.Tags.Where(t => t.Id == id).Single(),
+                        TagId = db.Tags.Where(t => t.Id == id).Single().Id,
+                        HomeworkId = assign.Id,
+                        Homework = assign
+                    };
+                    db.HomeworkTags.Add(tempHWT);
+                    db.SaveChanges();
+                }
 
-
-                db.SaveChanges();
                 return Json(new { success = true });
             }
             var errors = new List<string>();
@@ -109,43 +117,7 @@ namespace HWScheduler.Controllers
             return Json(new { success = false, errors });
         }
 
-        [HttpPost]
-        public IActionResult Create(string hw)
-        {
-            var assignment = GetHomework(hw);
-            return RedirectToAction("AddHw", assignment);
-        }
-
-        private Homework GetHomework(string hw)
-        {
-            var data = JObject.Parse(hw);
-            var newHw = new Homework
-            {
-                ClassId = int.Parse(data["Class"].ToString()),
-                Precedence = int.Parse(data["Priority"].ToString()),
-                Duedate = DateTime.Parse(data["DueDate"].ToString()),
-                Title = data["Title"].ToString(),
-                Description = data["Note"].ToString()
-            };
-            // Get tagIds to AddHW function. 
-            var tagIds = data["Tags"].ToString()
-                            .Replace('[', ' ')
-                            .Replace(']', ' ').Split(',');
-
-
-            return newHw;
-        }
-
-        public IActionResult GetTags()
-        {
-            List<Tag> tags = db.Tags.ToList();
-            return Json(tags);
-        }
-
-        public IActionResult AddClasses()
-        {
-            return View();
-        }
+        public IActionResult AddClasses() => View();
 
         [HttpPost]
         public IActionResult AddClasses(string classes)
@@ -167,9 +139,6 @@ namespace HWScheduler.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
