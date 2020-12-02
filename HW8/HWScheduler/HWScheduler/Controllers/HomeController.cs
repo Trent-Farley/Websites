@@ -74,7 +74,7 @@ namespace HWScheduler.Controllers
             return View();
         }
 
-        [HttpPost]
+
         public IActionResult Create(string hw)
         {
             var parser = new ParseHomework();

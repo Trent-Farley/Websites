@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HWScheduler.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,7 @@ namespace HWScheduler
 {
     public class Startup
     {
+        private string connectionString = null;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -24,10 +26,13 @@ namespace HWScheduler
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("AHWDb"));
+            //builder.Password = Configuration["HWSch:dbpass"];
             services.AddControllersWithViews();
             services.AddDbContext<HWDbContext>(opts =>
             {
-                opts.UseSqlServer(Configuration["ConnectionStrings:HWDb"]);
+                //opts.UseSqlServer(Configuration["ConnectionStrings:HWDb"]);
+                opts.UseSqlServer(Configuration.GetConnectionString("AHW"));
             });
         }
 
