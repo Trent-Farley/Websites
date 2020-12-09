@@ -1,2 +1,2 @@
 ### Db design:
-![Image of db design](Dbdesign.png)
+![Image of db design](./Dbdesign.png)
