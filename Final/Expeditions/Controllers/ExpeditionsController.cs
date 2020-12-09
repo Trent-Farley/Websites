@@ -62,7 +62,6 @@ namespace Expeditions.Controllers
             {
                 expedition.Year = expedition.StartDate.Value.Year;
                 expedition.Season = GetSeason(expedition.StartDate);
-                _logger.LogInformation(expedition.Season);
                 db.Add(expedition);
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

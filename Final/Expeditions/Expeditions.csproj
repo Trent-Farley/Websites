@@ -30,12 +30,6 @@
     <Watch Include="**/*.css" />
   </ItemGroup>
    <ItemGroup>
-     <Content Remove="wwwroot\js\Expeditions.js" />
-   </ItemGroup>
-   <ItemGroup>
-     <Watch Remove="wwwroot\js\Expeditions.js" />
-   </ItemGroup>
-   <ItemGroup>
-     <None Include="wwwroot\js\Expeditions.js" />
+     <Content Include="Dbdesign.PNG" />
    </ItemGroup>
 </Project>
