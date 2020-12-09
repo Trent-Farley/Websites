@@ -6,23 +6,87 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Expeditions.Models;
+using Expeditions.ViewModels;
 
 namespace Expeditions.Controllers
 {
     public class ExpeditionsController : Controller
     {
-        private readonly ExpeditionsDbContext _context;
+        private readonly ExpeditionsDbContext db;
 
         public ExpeditionsController(ExpeditionsDbContext context)
         {
-            _context = context;
+            db = context;
         }
 
         // GET: Expeditions
         public async Task<IActionResult> Index()
         {
-            var expeditionsDbContext = _context.Expeditions.Include(e => e.Peak).Include(e => e.TrekkingAgency);
-            return View(await expeditionsDbContext.ToListAsync());
+            ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name");
+            var expeditionsDbContext = db.Expeditions
+                .Include(e => e.Peak)
+                .Include(e => e.TrekkingAgency);
+            var newHike = new Hike()
+            {
+                Hikes = await expeditionsDbContext.ToListAsync(),
+                Mountains = await db.Peaks.ToListAsync()
+            };
+            return View(newHike);
+        }
+        public IActionResult SortDate()
+        {
+            ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name");
+
+            var expeditions = db.Expeditions
+                .OrderByDescending(t => t.StartDate)
+                .Include(p => p.Peak)
+                .Include(t => t.TrekkingAgency)
+                .ToList();
+            expeditions.Reverse();
+            var newHike = new Hike()
+            {
+                Hikes = expeditions,
+                Mountains = db.Peaks.ToList()
+            };
+            return View("Index", newHike);
+        }
+        public IActionResult SortPeak()
+        {
+            ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name");
+
+            var expeditions = db.Expeditions
+                .OrderByDescending(t => t.Peak.Name)
+                .Include(p => p.Peak)
+                .Include(t => t.TrekkingAgency)
+                .ToList();
+            expeditions.Reverse();
+            var newHike = new Hike()
+            {
+                Hikes = expeditions,
+                Mountains = db.Peaks.ToList()
+            };
+            return View("Index", newHike);
+        }
+
+        public IActionResult MountainSort(Hike hike)
+        {
+            ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name");
+            if (hike.Mountain.Id == null)
+            {
+                return NotFound();
+            }
+
+            var expeditions = db.Expeditions
+                 .Where(p => p.Peak.Id == hike.Mountain.Id)
+                .Include(p => p.Peak)
+                .Include(t => t.TrekkingAgency)
+                .ToList();
+            var newHike = new Hike()
+            {
+                Hikes = expeditions,
+                Mountains = db.Peaks.ToList()
+            };
+            return View("Index", newHike);
         }
 
         // GET: Expeditions/Details/5
@@ -33,7 +97,7 @@ namespace Expeditions.Controllers
                 return NotFound();
             }
 
-            var expedition = await _context.Expeditions
+            var expedition = await db.Expeditions
                 .Include(e => e.Peak)
                 .Include(e => e.TrekkingAgency)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -48,8 +112,10 @@ namespace Expeditions.Controllers
         // GET: Expeditions/Create
         public IActionResult Create()
         {
-            ViewData["PeakId"] = new SelectList(_context.Peaks, "Id", "Name");
-            ViewData["TrekkingAgencyId"] = new SelectList(_context.TrekkingAgencies, "Id", "Id");
+            ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name");
+            ViewData["TrekkingAgencyId"] = new SelectList(db.TrekkingAgencies, "Id", "Name");
+
+
             return View();
         }
 
@@ -62,12 +128,12 @@ namespace Expeditions.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(expedition);
-                await _context.SaveChangesAsync();
+                db.Add(expedition);
+                await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PeakId"] = new SelectList(_context.Peaks, "Id", "Name", expedition.PeakId);
-            ViewData["TrekkingAgencyId"] = new SelectList(_context.TrekkingAgencies, "Id", "Id", expedition.TrekkingAgencyId);
+            ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name", expedition.PeakId);
+            ViewData["TrekkingAgencyId"] = new SelectList(db.TrekkingAgencies, "Id", "Id", expedition.TrekkingAgencyId);
             return View(expedition);
         }
 
@@ -79,13 +145,13 @@ namespace Expeditions.Controllers
                 return NotFound();
             }
 
-            var expedition = await _context.Expeditions.FindAsync(id);
+            var expedition = await db.Expeditions.FindAsync(id);
             if (expedition == null)
             {
                 return NotFound();
             }
-            ViewData["PeakId"] = new SelectList(_context.Peaks, "Id", "Name", expedition.PeakId);
-            ViewData["TrekkingAgencyId"] = new SelectList(_context.TrekkingAgencies, "Id", "Id", expedition.TrekkingAgencyId);
+            ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name", expedition.PeakId);
+            ViewData["TrekkingAgencyId"] = new SelectList(db.TrekkingAgencies, "Id", "Id", expedition.TrekkingAgencyId);
             return View(expedition);
         }
 
@@ -105,8 +171,8 @@ namespace Expeditions.Controllers
             {
                 try
                 {
-                    _context.Update(expedition);
-                    await _context.SaveChangesAsync();
+                    db.Update(expedition);
+                    await db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -121,8 +187,8 @@ namespace Expeditions.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PeakId"] = new SelectList(_context.Peaks, "Id", "Name", expedition.PeakId);
-            ViewData["TrekkingAgencyId"] = new SelectList(_context.TrekkingAgencies, "Id", "Id", expedition.TrekkingAgencyId);
+            ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name", expedition.PeakId);
+            ViewData["TrekkingAgencyId"] = new SelectList(db.TrekkingAgencies, "Id", "Id", expedition.TrekkingAgencyId);
             return View(expedition);
         }
 
@@ -134,7 +200,7 @@ namespace Expeditions.Controllers
                 return NotFound();
             }
 
-            var expedition = await _context.Expeditions
+            var expedition = await db.Expeditions
                 .Include(e => e.Peak)
                 .Include(e => e.TrekkingAgency)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -151,15 +217,15 @@ namespace Expeditions.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var expedition = await _context.Expeditions.FindAsync(id);
-            _context.Expeditions.Remove(expedition);
-            await _context.SaveChangesAsync();
+            var expedition = await db.Expeditions.FindAsync(id);
+            db.Expeditions.Remove(expedition);
+            await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ExpeditionExists(int id)
         {
-            return _context.Expeditions.Any(e => e.Id == id);
+            return db.Expeditions.Any(e => e.Id == id);
         }
     }
 }

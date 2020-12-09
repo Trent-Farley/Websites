@@ -4,9 +4,5 @@
 $(document).ready(function () { window.setInterval(execute, 5000) });
 let count = 0;
 function execute() {
-    console.log('Running execute function');
-    if (count % 2) {
-        console.clear();
-        console.warn('Running execute');
-    }
+    console.log("Function running");
 }

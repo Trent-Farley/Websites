@@ -10,5 +10,7 @@ namespace Expeditions.ViewModels
     public class Hike
     {
         public IEnumerable<Expedition> Hikes { get; set; }
+        public IEnumerable<Peak> Mountains { get; set; }
+        public Peak Mountain { get; set; }
     }
 }
