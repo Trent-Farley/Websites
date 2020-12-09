@@ -22,10 +22,20 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="NewtonSoft.Json" Version="12.0.3" />
   </ItemGroup>
    <ItemGroup>
     <Watch Include="**/*.js" Exclude="node_modules\**\*;**\*.js.map;obj\**\*;bin\**\*" />
     <Watch Include="**/*.cshtml" />
     <Watch Include="**/*.css" />
   </ItemGroup>
+   <ItemGroup>
+     <Content Remove="wwwroot\js\Expeditions.js" />
+   </ItemGroup>
+   <ItemGroup>
+     <Watch Remove="wwwroot\js\Expeditions.js" />
+   </ItemGroup>
+   <ItemGroup>
+     <None Include="wwwroot\js\Expeditions.js" />
+   </ItemGroup>
 </Project>

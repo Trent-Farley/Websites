@@ -3,10 +3,11 @@
 @{
     ViewData["Title"] = "Index";
 }
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<div class="card">
+
+<div class="card  bg-transparent shadow-lg " style="padding: 2% 5% 2% 5%">
+    <p>
+        <a class="btn btn-outline-success" asp-action="Create">Create New</a>
+    </p>
     <h2 class="card-tile">
         Expeditions
     </h2>
@@ -18,7 +19,7 @@
         <a class="btn btn-outline-primary" asp-action="SortPeak">Peak Name</a>
     </div>
 
-    <form action="MountainSort">
+    <form asp-controller="Expeditions" asp-action="MountainSort">
         <label asp-for="Mountain.Id" class="control-label">Mountain</label>
         <div class="input-group-append">
             <select asp-for="Mountain.Id" class="form-control input-group-append" asp-items="ViewBag.PeakId"></select>
@@ -57,47 +58,51 @@
 
             @foreach (var item in Model.Hikes)
             {
-                if (item.Year == 2019)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Season)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Year)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.StartDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TerminationReason)
-                        </td>
-                        <td>
-                            @if ((bool)item.OxygenUsed)
-                            {
-                                <p>Oxygen used</p>
-                            }
-                            else
-                            {
-                                <p>Oxygen not used</p>
-                            }
 
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Peak.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TrekkingAgency.Name)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
-                    </tr>
-                }
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Season)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Year)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TerminationReason)
+                    </td>
+                    <td>
+                        @if ((bool)item.OxygenUsed)
+                        {
+                            <p>Oxygen used</p>
+                        }
+                        else
+                        {
+                            <p>Oxygen not used</p>
+                        }
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Peak.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TrekkingAgency.Name)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+
 
             }
         </tbody>
     </table>
 </div>
+
+@section Scripts
+{
+    <script src="/js/Expeditions.js"></script>
+}

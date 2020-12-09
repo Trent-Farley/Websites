@@ -1,38 +1,44 @@
-﻿@model Expeditions.ViewModels.Hike
+﻿@model Expeditions.ViewModels.Mountains
 @{ ViewData["Title"] = "Himalayan Expeditions"; }
 
 <div class="row">
     <div class="col">
-        <div class="text-center">
-            <img src="~/images/Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg" alt="Mount Everst as seen from Drukair2" width="1024" />
+        <div class="card bg-transparent shadow-lg" style="padding: 2% 5% 2% 5%">
+            <div class="text-center">
+                <img class="card-img-top active" src="~/images/Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg" alt="Mount Everst as seen from Drukair2" width="1024" />
+            </div>
+            <div class="card-footer">
+                <p>Data and idea for this app: Binit Shrestha, WOU Senior project class 2020. Photo above <a href="https://en.wikipedia.org/wiki/Mount_Everest#/media/File:Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg">from Wikipedia</a>.  Data from <a href="https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-09-22/readme.md">R for Data Science TidyTuesday: Himalayan Climbing Expeditions</a></p>
+            </div>
         </div>
     </div>
-</div>
-@*
-    Your implementation here.  I will provide some html code for the home page at the exam.
-*@
-@*<table class="table table-striped">
-        <thead>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        </thead>
-        @foreach (var h in Model.Hikes)
-        {
+    <div class="col shadow-lg">
+        <h2 class="text-center">Climbing in the Himalaya</h2>
+        <p class="text-center" id="stats">@*Put stats from AJAX question here*@</p>
+        <table class="table table-dark table-striped table-sm w-75" style="margin: 0 auto;">
+            <thead>
+                <tr>
+                    <th scope="col" style="text-align:center">Rank</th>
+                    <th scope="col" style="text-align:center">Mountain</th>
+                    <th scope="col">Height</th>
+                    <th scope="col">First climbed</th>
+                    <th scope="col"># of Expeditions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int rank = 0;}
+                @foreach (var m in Model.Mtns)
+                {
     <tr>
-        <td>@h.</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>@{rank = Model.Mtns.IndexOf(m) + 1;} @rank</td>
+        <td>@m.Name</td>
+        <td>@m.Height</td>
+        <td>@m.FirstAscentYear</td>
+        <td>@m.Expeditions.Count</td>
     </tr>}
-    </table>*@
+            </tbody>
+        </table>
+    </div>
+</div>
 
 
-<small>Data and idea for this app: Binit Shrestha, WOU Senior project class 2020. Photo above <a href="https://en.wikipedia.org/wiki/Mount_Everest#/media/File:Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg">from Wikipedia</a>.  Data from <a href="https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-09-22/readme.md">R for Data Science TidyTuesday: Himalayan Climbing Expeditions</a></small>

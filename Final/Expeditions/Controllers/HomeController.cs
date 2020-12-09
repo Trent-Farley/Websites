@@ -23,11 +23,15 @@ namespace Expeditions.Controllers
 
         public IActionResult Index()
         {
-            var hike = new Hike()
+            var newMtn = new Mountains()
             {
-                Hikes = db.Expeditions.Include(e => e.Peak).Include(e => e.TrekkingAgency).ToList()
+                Mtns = db.Peaks
+                .OrderByDescending(h => h.Height)
+                .Take(15)
+                .Include(e => e.Expeditions)
+                .ToList()
             };
-            return View(hike);
+            return View(newMtn);
         }
 
 

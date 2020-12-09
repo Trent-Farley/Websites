@@ -4,5 +4,18 @@
 $(document).ready(function () { window.setInterval(execute, 5000) });
 let count = 0;
 function execute() {
-    console.log("Function running");
+    $.getJSON('/api/GetStats', (data) => {
+        showStats(data);
+    });
+
+}
+//otalExps = exps, totalPeaks = peaks, totalUnclimbed = unclimbed
+let showStats = (data) => {
+    $('#stats').empty();
+    $('#stats').fadeOut();
+    setTimeout(2000);
+    $('#stats').append(`Currently tracking ${data.totalExps} expeditions for ${data.totalPeaks} peaks, ${data.totalUnclimbed} of which have not been climbed!`);
+
+    $('#stats').fadeIn();
+
 }

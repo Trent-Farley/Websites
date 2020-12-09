@@ -4,45 +4,25 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>Expedition</h4>
+<h1>Create new Expedition</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Season" class="control-label"></label>
-                <span asp-validation-for="Season" class="text-danger"></span>
-                <select class="form-control" asp-for="Season">
-                    <option value="Winter">Winter</option>
-                    <option value="Spring">Spring</option>
-                    <option value="Summer">Summer</option>
-                    <option value="Fall">Fall</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Year" class="control-label"></label>
-                <input type="number" min="1900" max="2099" asp-for="Year" class="form-control" />
-                <span asp-validation-for="Year" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
                 <input type="date" asp-for="StartDate" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TerminationReason" class="control-label"></label>
+                <label asp-for="TerminationReason" class="control-label">Termination Reason</label>
                 <input asp-for="TerminationReason" class="form-control" />
                 <span asp-validation-for="TerminationReason" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="OxygenUsed" class="control-label"> Oxygen Used</label>
-                <select class="form-control" asp-for="OxygenUsed">
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                </select>
+                <label asp-for="OxygenUsed" class="control-label"> O<sub>2</sub> Used?</label>
+                <input type="checkbox" name="OxygenUsed" value="true" class="custom-checkbox">
                 <span asp-validation-for="OxygenUsed" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -66,9 +46,4 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        $(function () {
-            $("#Year").datepicker({ dateFormat: 'yy' });
-        });
-    </script>
 }

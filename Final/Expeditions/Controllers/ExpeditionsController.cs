@@ -7,15 +7,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Expeditions.Models;
 using Expeditions.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace Expeditions.Controllers
 {
     public class ExpeditionsController : Controller
     {
         private readonly ExpeditionsDbContext db;
-
-        public ExpeditionsController(ExpeditionsDbContext context)
+        private readonly ILogger<ExpeditionsController> _logger;
+        public ExpeditionsController(ILogger<ExpeditionsController> logger, ExpeditionsDbContext context)
         {
+            _logger = logger;
             db = context;
         }
 
@@ -24,6 +26,8 @@ namespace Expeditions.Controllers
         {
             ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name");
             var expeditionsDbContext = db.Expeditions
+                .OrderByDescending(t => t.StartDate)
+                .Take(50)
                 .Include(e => e.Peak)
                 .Include(e => e.TrekkingAgency);
             var newHike = new Hike()
@@ -56,6 +60,7 @@ namespace Expeditions.Controllers
 
             var expeditions = db.Expeditions
                 .OrderByDescending(t => t.Peak.Name)
+                .Take(50)
                 .Include(p => p.Peak)
                 .Include(t => t.TrekkingAgency)
                 .ToList();
@@ -71,10 +76,7 @@ namespace Expeditions.Controllers
         public IActionResult MountainSort(Hike hike)
         {
             ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name");
-            if (hike.Mountain.Id == null)
-            {
-                return NotFound();
-            }
+            _logger.LogInformation("I am here");
 
             var expeditions = db.Expeditions
                  .Where(p => p.Peak.Id == hike.Mountain.Id)
@@ -112,8 +114,12 @@ namespace Expeditions.Controllers
         // GET: Expeditions/Create
         public IActionResult Create()
         {
-            ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name");
-            ViewData["TrekkingAgencyId"] = new SelectList(db.TrekkingAgencies, "Id", "Name");
+            var peaks = db.Peaks.OrderByDescending(n => n.Name).ToList();
+            peaks.Reverse();
+            var treksA = db.TrekkingAgencies.OrderByDescending(n => n.Name).ToList();
+            treksA.Reverse();
+            ViewData["PeakId"] = new SelectList(peaks, "Id", "Name");
+            ViewData["TrekkingAgencyId"] = new SelectList(treksA, "Id", "Name");
 
 
             return View();
@@ -124,17 +130,36 @@ namespace Expeditions.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Season,Year,StartDate,TerminationReason,OxygenUsed,PeakId,TrekkingAgencyId")] Expedition expedition)
+        public async Task<IActionResult> Create([Bind("Id,StartDate,TerminationReason,OxygenUsed,PeakId,TrekkingAgencyId")] Expedition expedition)
         {
+            //Need to change year and season
             if (ModelState.IsValid)
             {
+                expedition.Year = expedition.StartDate.Value.Year;
+                expedition.Season = GetSeason(expedition.StartDate);
+                _logger.LogInformation(expedition.Season);
                 db.Add(expedition);
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name", expedition.PeakId);
-            ViewData["TrekkingAgencyId"] = new SelectList(db.TrekkingAgencies, "Id", "Id", expedition.TrekkingAgencyId);
+            var peaks = db.Peaks.OrderByDescending(n => n.Name).ToList();
+            peaks.Reverse();
+            var treksA = db.TrekkingAgencies.OrderByDescending(n => n.Name).ToList();
+            treksA.Reverse();
+            ViewData["PeakId"] = new SelectList(peaks, "Id", "Name");
+            ViewData["TrekkingAgencyId"] = new SelectList(treksA, "Id", "Name");
+
             return View(expedition);
+        }
+
+        private string GetSeason(DateTime? date)
+        {
+            //Credit to https://stackoverflow.com/questions/1579587/how-can-i-get-the-current-season-using-net-summer-winter-etc
+            float value = (float)date.Value.Month + date.Value.Day / 100;
+            if (value < 3.21 || value >= 12.22) return "Winter";
+            if (value < 6.21) return "Spring";
+            if (value < 9.23) return "Summer";
+            return "Autumn";
         }
 
         // GET: Expeditions/Edit/5
