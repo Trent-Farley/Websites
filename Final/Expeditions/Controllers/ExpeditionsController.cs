@@ -24,7 +24,6 @@ namespace Expeditions.Controllers
         // GET: Expeditions
         public async Task<IActionResult> Index()
         {
-            ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name");
             var expeditionsDbContext = db.Expeditions
                 .OrderByDescending(t => t.StartDate)
                 .Take(50)
@@ -37,79 +36,7 @@ namespace Expeditions.Controllers
             };
             return View(newHike);
         }
-        public IActionResult SortDate()
-        {
-            ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name");
 
-            var expeditions = db.Expeditions
-                .OrderByDescending(t => t.StartDate)
-                .Include(p => p.Peak)
-                .Include(t => t.TrekkingAgency)
-                .ToList();
-            expeditions.Reverse();
-            var newHike = new Hike()
-            {
-                Hikes = expeditions,
-                Mountains = db.Peaks.ToList()
-            };
-            return View("Index", newHike);
-        }
-        public IActionResult SortPeak()
-        {
-            ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name");
-
-            var expeditions = db.Expeditions
-                .OrderByDescending(t => t.Peak.Name)
-                .Take(50)
-                .Include(p => p.Peak)
-                .Include(t => t.TrekkingAgency)
-                .ToList();
-            expeditions.Reverse();
-            var newHike = new Hike()
-            {
-                Hikes = expeditions,
-                Mountains = db.Peaks.ToList()
-            };
-            return View("Index", newHike);
-        }
-
-        public IActionResult MountainSort(Hike hike)
-        {
-            ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name");
-            _logger.LogInformation("I am here");
-
-            var expeditions = db.Expeditions
-                 .Where(p => p.Peak.Id == hike.Mountain.Id)
-                .Include(p => p.Peak)
-                .Include(t => t.TrekkingAgency)
-                .ToList();
-            var newHike = new Hike()
-            {
-                Hikes = expeditions,
-                Mountains = db.Peaks.ToList()
-            };
-            return View("Index", newHike);
-        }
-
-        // GET: Expeditions/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var expedition = await db.Expeditions
-                .Include(e => e.Peak)
-                .Include(e => e.TrekkingAgency)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (expedition == null)
-            {
-                return NotFound();
-            }
-
-            return View(expedition);
-        }
 
         // GET: Expeditions/Create
         public IActionResult Create()
@@ -126,8 +53,6 @@ namespace Expeditions.Controllers
         }
 
         // POST: Expeditions/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,StartDate,TerminationReason,OxygenUsed,PeakId,TrekkingAgencyId")] Expedition expedition)
@@ -162,95 +87,6 @@ namespace Expeditions.Controllers
             return "Autumn";
         }
 
-        // GET: Expeditions/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var expedition = await db.Expeditions.FindAsync(id);
-            if (expedition == null)
-            {
-                return NotFound();
-            }
-            ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name", expedition.PeakId);
-            ViewData["TrekkingAgencyId"] = new SelectList(db.TrekkingAgencies, "Id", "Id", expedition.TrekkingAgencyId);
-            return View(expedition);
-        }
-
-        // POST: Expeditions/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Season,Year,StartDate,TerminationReason,OxygenUsed,PeakId,TrekkingAgencyId")] Expedition expedition)
-        {
-            if (id != expedition.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    db.Update(expedition);
-                    await db.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ExpeditionExists(expedition.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["PeakId"] = new SelectList(db.Peaks, "Id", "Name", expedition.PeakId);
-            ViewData["TrekkingAgencyId"] = new SelectList(db.TrekkingAgencies, "Id", "Id", expedition.TrekkingAgencyId);
-            return View(expedition);
-        }
-
-        // GET: Expeditions/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var expedition = await db.Expeditions
-                .Include(e => e.Peak)
-                .Include(e => e.TrekkingAgency)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (expedition == null)
-            {
-                return NotFound();
-            }
-
-            return View(expedition);
-        }
-
-        // POST: Expeditions/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var expedition = await db.Expeditions.FindAsync(id);
-            db.Expeditions.Remove(expedition);
-            await db.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool ExpeditionExists(int id)
-        {
-            return db.Expeditions.Any(e => e.Id == id);
-        }
     }
 }

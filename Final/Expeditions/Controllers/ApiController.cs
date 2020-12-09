@@ -18,23 +18,6 @@ namespace Expeditions.Controllers
             db = context;
         }
         [HttpGet]
-        public IActionResult Expeditions()
-        {
-            return Json(db.Expeditions.ToList());
-        }
-
-        [HttpGet]
-        public IActionResult GetExpedition(int id)
-        {
-            var expedition = db.Expeditions
-                .Where(i => i.Id == id);
-            if (expedition == null)
-            {
-                return NotFound();
-            }
-            return Json(expedition);
-        }
-        [HttpGet]
         public IActionResult GetStats()
         {
             var exps = db.Expeditions.ToList().Count();
@@ -44,12 +27,6 @@ namespace Expeditions.Controllers
                 .ToList()
                 .Count();
             return Json(new { totalExps = exps, totalPeaks = peaks, totalUnclimbed = unclimbed });
-        }
-        // POST api/<ApiController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-
         }
 
     }

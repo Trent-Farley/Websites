@@ -6,43 +6,50 @@
 
 <h1>Create new Expedition</h1>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input type="date" asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TerminationReason" class="control-label">Termination Reason</label>
-                <input asp-for="TerminationReason" class="form-control" />
-                <span asp-validation-for="TerminationReason" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OxygenUsed" class="control-label"> O<sub>2</sub> Used?</label>
-                <input type="checkbox" name="OxygenUsed" value="true" class="custom-checkbox">
-                <span asp-validation-for="OxygenUsed" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PeakId" class="control-label">Mountain</label>
-                <select asp-for="PeakId" class="form-control" asp-items="ViewBag.PeakId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="TrekkingAgencyId" class="control-label">Trekking Agency Name</label>
-                <select asp-for="TrekkingAgencyId" class="form-control" asp-items="ViewBag.TrekkingAgencyId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="card shadow-lg">
+    <div class="text-center">
+        <img class="card-img-top active" src="~/images/Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg" alt="Mount Everst as seen from Drukair2" width="1024" />
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="StartDate" class="control-label">Date Started</label>
+                    <input type="date" asp-for="StartDate" class="form-control" />
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TerminationReason" class="control-label">Why was the expedition terminated?</label>
+                    <input asp-for="TerminationReason" class="form-control" />
+                    <span asp-validation-for="TerminationReason" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="OxygenUsed" class="control-label"> O<sub>2</sub> Used?</label>
+                    <input type="checkbox" name="OxygenUsed" value="true" class="custom-checkbox">
+                    <span asp-validation-for="OxygenUsed" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PeakId" class="control-label">Mountain</label>
+                    <select asp-for="PeakId" class="form-control" asp-items="ViewBag.PeakId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TrekkingAgencyId" class="control-label">Trekking Agency Name</label>
+                    <select asp-for="TrekkingAgencyId" class="form-control" asp-items="ViewBag.TrekkingAgencyId"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="card-footer card-link">
+    <a class="btn btn-primary" asp-action="Index">Back to List</a>
 </div>
+</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
